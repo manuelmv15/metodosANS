@@ -1,0 +1,9 @@
+<h2>Registrarse</h2>
+<form method="post">
+  {% csrf_token %}
+  <input type="text" name="nombre" placeholder="Nombre"><br>
+  <input type="text" name="user" placeholder="Usuario"><br>
+  <input type="email" name="email" placeholder="Correo"><br>
+  <input type="password" name="password" placeholder="Contraseña"><br>
+  <button type="submit">Crear cuenta</button>
+</form>

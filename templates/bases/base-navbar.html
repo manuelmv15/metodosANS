@@ -1,0 +1,17 @@
+<nav>
+    {% if modo == 'usuario' %}
+        <a href="{% url 'inicio_usuario' %}">Inicio</a>
+        <a href="{% url 'metodo1_usuario' %}">Método 1</a>
+        <a href="{% url 'metodo2_usuario' %}">Método 2</a>
+        <a href="{% url 'documentacion_usuario' %}">Documentación</a>
+        <a href="{% url 'perfil' %}">Perfil</a>
+        <a href="{% url 'cerrar_sesion' %}">Cerrar Sesión</a> 
+    {% elif modo == 'landing' %}
+        <a href="{% url 'inicio_landing' %}">Inicio</a>
+        <a href="{% url 'metodo1_landing' %}">Método 1</a>
+        <a href="{% url 'metodo2_landing' %}">Método 2</a>
+        <a href="{% url 'documentacion_landing' %}">Documentación</a>
+        <a href="{% url 'login' %}">Iniciar Sesión</a>
+        <a href="{% url 'registro' %}">Registrarse</a>
+    {% endif %}
+</nav>
