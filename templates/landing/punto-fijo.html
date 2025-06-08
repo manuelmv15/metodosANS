@@ -3,7 +3,36 @@
 
 {% block title %}punto fijo{% endblock %}
 
+{% load static %}
+
 {% block content %}
- <h1>metodo de iteracion de punto fijo</h1>
+ <h1>Método de Punto Fijo</h1>
+
+    <form method="post">
+    {% csrf_token %}
+    
+    <label for="funcion">Ecuación g(x):</label>
+    <input type="text" name="funcion" value="{{ funcion|default:'E**-x' }}">
+
+    <label for="x0">x₀:</label>
+    <input type="number" name="x0" value="{{ x0 }}" step="any"><br>
+
+    <label for="error_final">Error final:</label>
+    <input type="number" name="error_final" value="{{ error_final }}" step="any"><br>
+
+    <button type="submit">Calcular</button>
+</form>
+
+
+    {% if resultado %}
+    <h2>Resultado:</h2>
+
+    <h2>x = {{ resultado }}</h2>
+    <h2>Error = {{ error }} % </h2>
+    
+    <h3>Gráfica:</h3>
+    <img src="{% static 'metodos/grafica_punto_fijo.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">
+
+    {% endif %}
 
 {% endblock %}

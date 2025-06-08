@@ -31,16 +31,23 @@
 
 
     {% if resultado %}
-    <h2>Resultado: {{ resultado }}</h2>
+    <h2>Resultado:</h2>
+
+    <h2>x = {{ resultado }}</h2>
+    <h2>Error = {{ error }} % </h2>
     <h3>Iteraciones:</h3>
     <table border="1">
-        <tr><th>x</th><th>Error (%)</th></tr>
-        {% for fila in iteraciones %}
         <tr>
-            <td>{{ fila.0 }}</td>
-            <td>{{ fila.1 }}</td>
+            <th>n</th><th>x</th><th>Error (%)</th>
         </tr>
-        {% endfor %}
+        {% for fila in iteraciones %}
+    <tr>
+        <td>{{ forloop.counter }}</td>  <!-- Número de iteración -->
+        <td>{{ fila.0 }}</td>            <!-- x anterior -->
+        <td>{{ fila.1 }}</td>            <!-- error -->
+    </tr>
+{% endfor %}
+
     </table>
     <h3>Gráfica:</h3>
     <img src="{% static 'metodos/grafica_punto_fijo.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">

@@ -25,8 +25,9 @@ def usuario_metodo1(request):
     funcion = ''
     x0 = 0
     decimales = 6
-    error_final = 0.0001
+    error_final = 0.1
     nIteraciones = 10
+    porcentajeError = 0
 
     if request.method == 'POST':
         funcion = request.POST.get('funcion')
@@ -41,10 +42,7 @@ def usuario_metodo1(request):
                 error_final = float(request.POST.get('error_final'))
 
                 resultado, iteraciones = puntoFijo(funcion, x0, decimales, error_final, nIteraciones)
-                import pprint
-                pprint.pprint(iteraciones)
-
-                # 🔥 Guardar en la base de datos
+                
                 usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
 
                 historial = HistorialPuntoFijo.objects.create(
@@ -65,9 +63,9 @@ def usuario_metodo1(request):
                     x_nueva=it[0],  # x nueva
                     error=it[1]
                     )
-
-
-
+                
+                if iteraciones:
+                    porcentajeError = iteraciones[-1][1]
             except Exception as e:
                 resultado = f"Error: {str(e)}"
     
@@ -79,6 +77,7 @@ def usuario_metodo1(request):
         'x0': x0,
         'decimales': decimales,
         'error_final': error_final,
+        'error': porcentajeError,
         'nIteraciones': nIteraciones
     })
 
