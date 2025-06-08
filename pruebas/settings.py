@@ -80,8 +80,8 @@ WSGI_APPLICATION = 'pruebas.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dbMetodosANS',
-        'USER': 'manuel',
+        'NAME': 'dbMetodos',
+        'USER': 'root',
         'PASSWORD': '12345678',
         'HOST': 'localhost',
         'PORT': '3306',
