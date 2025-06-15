@@ -85,6 +85,8 @@ def landing_metodo2(request):
         'errorT': errorT,
         'errorTC': errorTC,
         'funcion': funcion,
+        'limite_a': limite_a,
+        'limite_b': limite_b
     })
 
 def landing_documentacion(request):

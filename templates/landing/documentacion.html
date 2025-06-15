@@ -6,4 +6,226 @@
 {% block content %}
  <h1>documentacion</h1>
 
+<div class="main">
+        <aside class="main-aside">
+            <h2><a href="#">Herramientas</a></h2>
+            <ul >
+                <li><a href="#"> Python</a></li>
+                <li><a href="#"> NumPy</a></li>
+                <li><a href="#"> Matplotlib</a></li>
+                <li><a href="#"> Sympy</a></li>
+                <li><a href="#"> Django</a></li>
+            </ul>
+
+            <h2><a href="#">Metodos</a></h2>
+            <ul>
+                <li><a href="#"> metodo 1</a></li>
+                <li><a href="#"> metodo 2</a></li>
+            </ul>
+        </aside>
+
+          <section class="main-section">
+            <article id="python" class="content-block">
+              <h1>🐍 Python</h1>
+              <p>Python es un lenguaje de programación interpretado, de alto nivel y propósito general. Es ampliamente utilizado en análisis numérico, inteligencia artificial, desarrollo web, y más.</p>
+              <h3>Instalación</h3>
+              <pre><code># En Windows:
+1. Descargar desde https://python.org
+2. Ejecutar el instalador y marcar "Add to PATH"
+
+# En Linux:
+sudo apt update
+sudo apt install python3 python3-pip
+              </code></pre>
+            </article>
+
+            <article id="numpy" class="content-block">
+              <h1>📗 NumPy</h1>
+              <p>NumPy es una biblioteca fundamental para cálculos numéricos en Python. Proporciona arrays multidimensionales y funciones matemáticas rápidas.</p>
+              <h3>Instalación</h3>
+              <pre><code>pip install numpy</code></pre>
+            </article>
+
+            <article id="matplotlib" class="content-block">
+              <h1>📊 Matplotlib</h1>
+              <p>Matplotlib es una biblioteca de gráficos en Python para generar gráficos estáticos, animados e interactivos.</p>
+              
+              <h3>Instalación</h3>
+              <pre><code>pip install matplotlib</code></pre>
+              
+              <h3>Ejemplo</h3>
+              <pre><code>import matplotlib.pyplot as plt
+
+x = [1, 2, 3]
+y = [2, 4, 6]
+
+plt.plot(x, y)
+plt.show()</code></pre>
+            </article>
+
+            <article id="sympy" class="content-block">
+              <h1>🧮 Sympy</h1>
+              <p>Sympy es una biblioteca para cálculo simbólico en Python, ideal para álgebra, derivadas, integrales, y más.</p>
+              <h3>Ejemplo</h3>
+              <pre><code>from sympy import symbols, diff
+
+x = symbols('x')
+expr = x**2 + 3*x + 2
+diff(expr, x)
+              </code></pre>
+            </article>
+
+            <article id="django" class="content-block">
+              <h1>🌐 Django</h1>
+              <p>Django es un framework web de alto nivel que permite un desarrollo rápido con un diseño limpio y pragmático.</p>
+              <h3>Instalación</h3>
+              <pre><code>pip install django</code></pre>
+            </article>
+
+            <article id="metodo1" class="content-block">
+              <h1>📌 Método 1</h1>
+              <p>Este método consiste en aplicar una técnica iterativa para 
+                encontrar raíces de funciones no lineales.</p>
+              <br>
+              <p>Los métodos abiertos emplean una fórmula para predecir la raíz. Esta 
+fórmula puede desarrollarse como una iteración simple de punto fijo, al arreglar la 
+ecuación f(x) = 0 de tal modo que x esté del lado izquierdo de la ecuación:</p><br>
+              <p> x = g(x) (ecuación 1) </p><br>
+              <p>
+                 Esta transformación se realiza mediante operaciones algebraicas o simplemente 
+                 sumando x a cada lado de la ecuación original. Por ejemplo:
+              </p><br>
+              <p> 
+                <math display="block">
+                  <mrow>
+                    <msup>
+                      <mi>x</mi>
+                      <mn>2</mn>
+                    </msup>
+                    <mo>-</mo>
+                    <mn>2</mn>
+                    <mi>x</mi>
+                    <mo>+</mo>
+                    <mn>3</mn>
+                    <mo>=</mo>
+                    <mn>0</mn>
+                  </mrow>
+                </math>
+              </p><br>
+              <p>se convierte en </p><br>
+              <p>
+                <math display="block">
+                  <mrow>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mfrac>
+                      <mrow>
+                        <mo>(</mo>
+                        <msup>
+                          <mi>x</mi>
+                          <mn>2</mn>
+                        </msup>
+                        <mo>-</mo>
+                        <mn>3</mn>
+                        <mo>)</mo>
+                      </mrow>
+                      <mn>2</mn>
+                    </mfrac>
+                  </mrow>
+                </math>
+              </p><br>
+              <p>
+                 La utilidad de la ecuación (6.1) es que proporciona una fórmula para predecir un 
+nuevo valor de x en función del valor anterior de x. De esta manera, dado un valor inicial 
+para la raíz xi, la ecuación (6.1) se utiliza para obtener una nueva aproximación xi+1, 
+expresada por la fórmula iterativa.
+              </p><br>
+              <p>
+                <math display="block">
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow>
+                        <mi>i</mi>
+                        <mo>+</mo>
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                    <mo>=</mo>
+                    <mrow>
+                      <mi>g</mi>
+                      <mo>(</mo>
+                        <msub>
+                          <mo>x</mo>
+                          <mi>i</mi>
+                        </msub>
+                      <mo>)</mo>
+                    </mrow>
+                  </mrow>
+                </math>
+              </p><br>
+              <p>Para obteber el error aproximado de cada iteración se usara el error normalizado:</p><br>
+              <p>
+                <math display="block">
+                  <mrow>
+                    <msub>
+                      <mo>E</mo>
+                      <mi>a</mi>
+                    </msub>
+                    <mo>=</mo>
+                    <mrow>
+                      <mo>|</mo>
+                        <mfrac>
+                          <mrow>
+                            <msub>
+                              <mi>x</mi>
+                              <mrow>
+                                <mi>i</mi>
+                                <mo>+</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msub>
+                            <mo>-</mo>
+                            <msub>
+                              <mi>x</mi>
+                              <mi>i</mi>
+                            </msub>
+                          </mrow>
+                          <msub>
+                              <mi>x</mi>
+                              <mrow>
+                                <mi>i</mi>
+                                <mo>+</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msub>
+                        </mfrac>
+                      <mo>|</mo>
+                    </mrow>
+                    <mn>100</mn>
+                    <mo>%</mo>
+                  </mrow>
+                </math>
+              </p><br>
+              <h3>Parámetros:</h3>
+              <ul>
+                <li>Función f(x)</li>
+                <li>Valor inicial x₀</li>
+                <li>Condición de error</li>
+              </ul>
+            </article>
+
+            <article id="metodo2" class="content-block">
+              <h1>📌 Método 2</h1>
+              <p>Este método utiliza diferencias divididas para interpolación polinómica basada en puntos conocidos.</p>
+              <h3>Requiere:</h3>
+              <ul>
+                <li>Puntos (x, y)</li>
+                <li>Orden de interpolación</li>
+              </ul>
+            </article>
+          </section>
+
+        </div>
+
 {% endblock %}

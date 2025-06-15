@@ -101,7 +101,8 @@ def IntegralNumerica(f, deci, a, b, tama):
 def GraficarITC(a, b, valores, tama, valoresH):
     fig, ax = plt.subplots()
 
-    plt.plot(valoresH, valores)
+    plt.fill_between(valoresH, valores)
+    plt.grid(True)
 
     plt.tight_layout()
     plt.savefig("static/metodos/grafica_integral_numerica.svg", format='svg')
