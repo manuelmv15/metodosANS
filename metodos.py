@@ -2,7 +2,7 @@ import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sympy import integrate
+from sympy import integrate, Abs
 
 x = sp.symbols('x')
 
@@ -66,20 +66,16 @@ def puntoFijoGrafica(ecuacion, lista, decimales):
 
 
 
-def IntegralNumerica(f, deci, valores, valoresH, a, b, tama):
+def IntegralNumerica(f, deci, a, b, tama):
     
-    ff = sp.sympify(f)
+    fff = sp.sympify(f)
     
-    fff = sp.Lambda(x, ff)
+    AreaI = round(integrate(fff, (x, a, b) ).evalf(), deci)
     
-    fa = fff(a)
-    fb = fff(b)
+    fa = fff.subs(x, a)
+    fb = fff.subs(x, b)
     
-    AreaT = np.round((b-a)*((fa + fb)/2), deci)#Trapecio Simple
-    
-    broaaaa = float(integrate(fff, (x, a, b) ).evalf())
-    
-    AreaI = np.round(broaaaa, deci)#Evaluar integral
+    AreaT = round((b-a)*((fa + fb)/2), deci)
     
     h = (b - a)/tama
 
@@ -87,26 +83,25 @@ def IntegralNumerica(f, deci, valores, valoresH, a, b, tama):
     valoresH = np.zeros(tama+1)
     
     for i in range(tama+1):
-        valores[i] = fff(a+(h*i))
+        valores[i] = fff.subs(x, a+(h*i))
         valoresH[i] = a+(h*i)
         
     if valores.size > 2:
         resto = np.sum(valores[np.arange(1,tama)])
     
-    AreaTC = np.round((b-a)*((fa+fb+2*resto)/(2*tama)), deci)#Area trapecio compuesta
+    AreaTC = round((b-a)*((fa+fb+2*resto)/(2*tama)), deci)#Area trapecio compuesta
     
-    errorT = Error(AreaT, AreaI, deci)
-    errorTC = Error(AreaTC, AreaI, deci)
+    errorT = round(Abs((AreaI - AreaT) / AreaI) * 100, deci)
+    errorTC = round(Abs((AreaI - AreaTC) / AreaI) * 100, deci)
     
-    GraficarITC(a, b, valores, tama)
+    GraficarITC(a, b, valores, tama, valoresH)
     
-    return AreaI, AreaT, AreaTC
+    return AreaI, AreaT, AreaTC, valores, valoresH, errorT, errorTC
 
-def GraficarITC(a, b, valores, tama):
+def GraficarITC(a, b, valores, tama, valoresH):
     fig, ax = plt.subplots()
 
-    arr = np.linspace(a,b,tama+1)
+    plt.plot(valoresH, valores)
 
-    plt.plot(arr, valores)
-
+    plt.tight_layout()
     plt.savefig("static/metodos/grafica_integral_numerica.svg", format='svg')

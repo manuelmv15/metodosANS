@@ -49,17 +49,17 @@ def landing_metodo1(request):
 
 
 def landing_metodo2(request):
-    AreaI = None
-    AreaT = 0
-    AreaTC = 0
+    AreaI = 0.0
+    AreaT = 0.0
+    AreaTC = 0.0
     valores = []
     valoresH = []
     funcion = ''
-    limite_a = 0
-    limite_b = 0
+    limite_a = 0.0
+    limite_b = 0.0
     decimales = 4
-    errorT = 0
-    errorTC = 0
+    errorT = 0.0
+    errorTC = 0.0
     
     if request.method == 'POST':
         funcion = request.POST.get('funcion')
@@ -72,7 +72,7 @@ def landing_metodo2(request):
                 limite_b = float(request.POST.get('limite_b'))
                 valor_t = int(request.POST.get('valor_t'))
 
-                AreaI, AreaT, AreaTC = IntegralNumerica(funcion, decimales, valores, valoresH, limite_a, limite_b, valor_t)
+                AreaI, AreaT, AreaTC, valores, valoresH, errorT, errorTC = IntegralNumerica(funcion, decimales, limite_a, limite_b, valor_t)
 
             except Exception as e:
                 AreaI = f"Error: {str(e)}"
