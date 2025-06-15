@@ -2,6 +2,8 @@ import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
 
+from sympy import integrate
+
 x = sp.symbols('x')
 
 def evaluarFuncion(ecuacion, x0, decimales):
@@ -64,5 +66,47 @@ def puntoFijoGrafica(ecuacion, lista, decimales):
 
 
 
+def IntegralNumerica(f, deci, valores, valoresH, a, b, tama):
+    
+    ff = sp.sympify(f)
+    
+    fff = sp.Lambda(x, ff)
+    
+    fa = fff(a)
+    fb = fff(b)
+    
+    AreaT = np.round((b-a)*((fa + fb)/2), deci)#Trapecio Simple
+    
+    broaaaa = float(integrate(fff, (x, a, b) ).evalf())
+    
+    AreaI = np.round(broaaaa, deci)#Evaluar integral
+    
+    h = (b - a)/tama
 
+    valores = np.zeros(tama+1)
+    valoresH = np.zeros(tama+1)
+    
+    for i in range(tama+1):
+        valores[i] = fff(a+(h*i))
+        valoresH[i] = a+(h*i)
+        
+    if valores.size > 2:
+        resto = np.sum(valores[np.arange(1,tama)])
+    
+    AreaTC = np.round((b-a)*((fa+fb+2*resto)/(2*tama)), deci)#Area trapecio compuesta
+    
+    errorT = Error(AreaT, AreaI, deci)
+    errorTC = Error(AreaTC, AreaI, deci)
+    
+    GraficarITC(a, b, valores, tama)
+    
+    return AreaI, AreaT, AreaTC
 
+def GraficarITC(a, b, valores, tama):
+    fig, ax = plt.subplots()
+
+    arr = np.linspace(a,b,tama+1)
+
+    plt.plot(arr, valores)
+
+    plt.savefig("static/metodos/grafica_integral_numerica.svg", format='svg')

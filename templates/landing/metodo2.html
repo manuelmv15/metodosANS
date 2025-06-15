@@ -1,9 +1,45 @@
 {% extends 'bases/base.html' %}
 
 
-{% block title %}metodo 2{% endblock %}
+{% block title %}Integración Númerica{% endblock %}
+
+{% load static %}
 
 {% block content %}
- <h1>metodo 2</h1>
+ <h1>Metodo del trapecio y trapecio compuesto</h1>
+
+    <form method="post">
+    {% csrf_token %}
+    
+    <label for="funcion">Ecuación g(x):</label>
+    <input type="text" name="funcion" value="{{ funcion|default:'0.2 + 25*x - 200*x**2 + 675*x**3 - 900*x**4 + 400*x**5' }} 
+    "style="width:100%;">
+
+    <label for="limite_a">Limite inferior: </label>
+    <input type="number" name="limite_a" value="{{ limite_a|default:0 }}" step="0.1"><br>
+
+    <label for="limite_b">Limite superior: </label>
+    <input type="number" name="limite_b" value="{{ limite_b|default:0.8 }}" step="0.1"><br>
+
+    <label for="valor_t">Número intervalos para el trapecio compuesto: </label>
+    <input type="number" name="valor_t" value="{{ valor_t|default:6 }}" step="any"><br>
+
+    <button type="submit">Calcular</button>
+</form>
+
+    {% if AreaI %}
+        <h2>Resultado:</h2>
+
+        <h2>Area integral = {{ AreaI }}</h2>
+        <h2>Area trapecio = {{ AreaT }}</h2>
+        <h2>Area trapecio compuesto = {{ AreaTC }}</h2>
+
+        <h2>Error trapecio = {{ errorT }}</h2>
+        <h2>Error trapecio compuesto = {{ errorTC }}</h2>
+
+        <h3>Gráfica:</h3>
+        <img src="{% static 'metodos/grafica_integral_numerica.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">
+
+    {% endif %}
 
 {% endblock %}

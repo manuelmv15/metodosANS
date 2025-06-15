@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
-from metodos import puntoFijo
+from metodos import puntoFijo, IntegralNumerica
 
 
 
@@ -49,7 +49,43 @@ def landing_metodo1(request):
 
 
 def landing_metodo2(request):
-    return render(request, 'landing/metodo2.html', {'modo': 'landing'})
+    AreaI = None
+    AreaT = 0
+    AreaTC = 0
+    valores = []
+    valoresH = []
+    funcion = ''
+    limite_a = 0
+    limite_b = 0
+    decimales = 4
+    errorT = 0
+    errorTC = 0
+    
+    if request.method == 'POST':
+        funcion = request.POST.get('funcion')
+
+        if not funcion or funcion.strip() == "":
+            AreaI = "Por favor, ingresa una ecuación válida en g(x)."
+        else:
+            try:
+                limite_a = float(request.POST.get('limite_a'))
+                limite_b = float(request.POST.get('limite_b'))
+                valor_t = int(request.POST.get('valor_t'))
+
+                AreaI, AreaT, AreaTC = IntegralNumerica(funcion, decimales, valores, valoresH, limite_a, limite_b, valor_t)
+
+            except Exception as e:
+                AreaI = f"Error: {str(e)}"
+
+    return render(request, 'landing/metodo2.html', {
+        'modo': 'landing',
+        'AreaI': AreaI,
+        'AreaT': AreaT,
+        'AreaTC': AreaTC,
+        'errorT': errorT,
+        'errorTC': errorTC,
+        'funcion': funcion,
+    })
 
 def landing_documentacion(request):
     return render(request, 'landing/documentacion.html', {'modo': 'landing'})
