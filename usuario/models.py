@@ -8,8 +8,10 @@ class HistorialPuntoFijo(models.Model):
     n_iteraciones = models.IntegerField()
     decimales = models.IntegerField()
     error_final = models.FloatField()
-    resultado_final = models.FloatField()
+    resultado_final = models.FloatField()  # este es el correcto
+    error_Calculado = models.FloatField(default=0.0)
     fecha = models.DateTimeField(auto_now_add=True)
+
 
     class Meta:
         db_table = 'tblHistorialPuntoFijo'

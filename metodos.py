@@ -1,8 +1,7 @@
+from sympy import integrate, Abs
 import sympy as sp
 import numpy as np
 import matplotlib.pyplot as plt
-
-from sympy import integrate, Abs
 
 x = sp.symbols('x')
 
@@ -11,27 +10,43 @@ def evaluarFuncion(ecuacion, x0, decimales):
     return np.round(fx(x0), decimales)
 
 def Error(X_nueva, X_Vieja, decimales):
+
     if X_nueva == 0:
-        return np.inf
+        return 0
     error = np.abs((X_nueva - X_Vieja) / X_nueva) * 100
     return np.round(error, decimales)
+
+
+
 def puntoFijo(ecuacion_str, x_Vieja, decimales, error_final, nIteraciones):
     lista = []
     ecuacion = sp.sympify(ecuacion_str)
+    error = 0.0
 
     for i in range(nIteraciones):
         x_Nueva = evaluarFuncion(ecuacion, x_Vieja, decimales)
+
+        # Verificamos si el valor es finito y no demasiado grande
+        if not np.isfinite(x_Nueva) or abs(x_Nueva) > 1e6:
+            error = float('nan')
+            lista.append([float('inf'), float('nan')])
+            break
+
         error = Error(x_Nueva, x_Vieja, decimales)
+
+        if not np.isfinite(error):
+            error = float('nan')
 
         lista.append([round(x_Vieja, decimales), error])
 
         if error <= error_final:
-            break  # solo sal del bucle, no grafiques aún
+            break
 
         x_Vieja = x_Nueva
 
     puntoFijoGrafica(ecuacion, lista, decimales)
-    return x_Nueva, lista
+    return x_Nueva, lista, error
+
 
 def puntoFijoGrafica(ecuacion, lista, decimales):
     X0 = lista[0][0]  # Valor inicial
@@ -63,6 +78,10 @@ def puntoFijoGrafica(ecuacion, lista, decimales):
     # Guardar como archivo SVG
     plt.tight_layout()
     plt.savefig("static/metodos/grafica_punto_fijo.svg", format='svg')
+
+
+
+
 
 
 

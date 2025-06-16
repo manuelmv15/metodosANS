@@ -1,10 +1,127 @@
 {% extends 'bases/base.html' %}
 
+{% block title %}punto fijo{% endblock %}
 
-{% block title %}perfil{% endblock %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+{% endblock %}
+
+
+
 
 {% block content %}
- <h1>perfil</h1>
+<section class="perfil-contenedor">
+  <h1 class="titulo">Perfil de Usuario</h1>
 
- <h2>hola {{nombre}} </h2>
+<nav class="tabs">
+  <a href="#" onclick="mostrarMetodo('metodo1', this)">Método 1</a>
+  <a href="#" onclick="mostrarMetodo('metodo2', this)">Método 2</a>
+</nav>
+
+<div id="metodo1" class="contenido-metodo visible">
+ {% if historial %}
+  <div class="tabla-contenedor">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Función</th>
+          <th>x₀</th>
+          <th>Iteración</th>
+          <th>Decimal</th>
+          <th>Error final</th>
+          <th>Resultado</th>
+          <th>Error (%)</th>
+          <th>Fecha</th>
+          <th>Botón</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for h in historial %}
+        <tr>
+          <td>{{ h.funcion }}</td>
+          <td>{{ h.x0 }}</td>
+          <td>{{ h.n_iteraciones }}</td>
+          <td>{{ h.decimales }}</td>
+          <td>{{ h.error_final }}</td>
+          <td>{{ h.resultado_final }}</td>
+          <td>{{ h.error_Calculado }}</td>
+          <td>{{ h.fecha|date:"d/m/Y H:i" }}</td>
+          <td>
+            <button class="boton-ver" onclick="toggleIteraciones('iteraciones-{{ forloop.counter }}')">
+              Ver
+            </button>
+          </td>
+        </tr>
+
+       <tr id="iteraciones-{{ forloop.counter }}" class="fila-oculta fila-expandible">
+          <td colspan="9">
+            <div class="iteraciones-scroll">
+              <strong>Iteraciones:</strong>
+              <table class="subtabla">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>x anterior</th>
+                    <th>x nueva</th>
+                    <th>Error (%)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for iter in h.iteraciones.all %}
+                  <tr>
+                    <td>{{ iter.numero_iteracion }}</td>
+                    <td>{{ iter.x_anterior }}</td>
+                    <td>{{ iter.x_nueva }}</td>
+                    <td>{{ iter.error }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <p>No hay historial disponible.</p>
+  {% endif %}
+</section>
+
+</div>
+
+<div id="metodo2" class="contenido-metodo">
+  <h2>Contenido de Método 2</h2>
+  <p>Esta es la sección del método 2.</p>
+</div>
+
+
+
+ 
+<script>
+function toggleIteraciones(id) {
+  const fila = document.getElementById(id);
+  fila.classList.toggle('fila-visible');
+  fila.classList.toggle('fila-oculta');
+}
+function mostrarMetodo(id, enlace) {
+  // Oculta todos los divs
+  document.querySelectorAll('.contenido-metodo').forEach(div => {
+    div.classList.remove('visible');
+  });
+
+  // Elimina clase activa de todos los links
+  document.querySelectorAll('.tabs a').forEach(a => {
+    a.classList.remove('activo');
+  });
+
+  // Muestra el div correspondiente
+  document.getElementById(id).classList.add('visible');
+  enlace.classList.add('activo');
+}
+</script>
+
 {% endblock %}

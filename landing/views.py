@@ -16,24 +16,37 @@ def landing_metodo1(request):
     error_final = 0.01
     nIteraciones = 10
     porcentajeError = 0
+    errores = []
 
     if request.method == 'POST':
         funcion = request.POST.get('funcion')
+        x0_str = request.POST.get('x0')
+        error_final_str = request.POST.get('error_final')
 
+        # Validaciones
         if not funcion or funcion.strip() == "":
-            resultado = "Por favor, ingresa una ecuación válida en g(x)."
-        else:
-            try:
-                x0 = float(request.POST.get('x0'))
-                error_final = float(request.POST.get('error_final'))
+            errores.append("Debe ingresar una función g(x).")
 
+        try:
+            x0 = float(x0_str)
+        except (ValueError, TypeError):
+            errores.append("x₀ debe ser un número válido.")
+
+        try:
+            error_final = float(error_final_str)
+            if error_final <= 0:
+                errores.append("El error final debe ser mayor a 0.")
+        except (ValueError, TypeError):
+            errores.append("El error final debe ser un número válido.")
+
+        if not errores:
+            try:
                 resultado, iteraciones = puntoFijo(funcion, x0, decimales, error_final, nIteraciones)
 
                 if iteraciones:
                     porcentajeError = iteraciones[-1][1]
-
             except Exception as e:
-                resultado = f"Error: {str(e)}"
+                errores.append(f"Error durante el cálculo: {str(e)}")
 
     return render(request, 'landing/punto-fijo.html', {
         'modo': 'landing',
@@ -44,7 +57,8 @@ def landing_metodo1(request):
         'decimales': decimales,
         'error_final': error_final,
         'error': porcentajeError,
-        'nIteraciones': nIteraciones
+        'nIteraciones': nIteraciones,
+        'errores': errores  # Importante pasar esto a la plantilla
     })
 
 

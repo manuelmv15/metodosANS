@@ -4,37 +4,56 @@
 
 {% load static %}
 
+
 {% block content %}
+
  <h1>Método de Punto Fijo</h1>
 
     <form method="post">
     {% csrf_token %}
     
     <label for="funcion">Ecuación g(x):</label>
-    <input type="text" name="funcion" value="{{ funcion|default:'E**-x' }}">
+    <input type="text" name="funcion" value="{{ funcion|default:'E**-x' }}">  <!--no vacio-->
 
 
     <label for="x0">x₀:</label>
-    <input type="number" name="x0" value="{{ x0 }}" step="any"><br>
+    <input type="number" name="x0" value="{{ x0 }}" step="any"><br> <!--no vacio-->
 
     <label for="nIteraciones">Iteraciones:</label>
-    <input type="number" name="nIteraciones" value="{{ nIteraciones }}"><br>
+    <input type="number" name="nIteraciones" value="{{ nIteraciones }}"><br> <!--mayor a 1 menor a 25-->
 
-    <label for="decimales">Decimales:</label>
-    <input type="number" name="decimales" value="{{ decimales }}"><br>
+    <label for="decimales">Decimales:</label> 
+    <input type="number" name="decimales" value="{{ decimales }}"><br> <!--mayor a 1 menor a 10-->
 
-    <label for="error_final">Error final:</label>
+    <label for="error_final">Error final:</label> <!--mayor a 0-->
     <input type="number" name="error_final" value="{{ error_final }}" step="any"><br>
 
     <button type="submit">Calcular</button>
 </form>
 
 
+{% if errores %}
+  <article class="message is-danger">
+    <div class="message-header">
+      <p>Ocurrió un error</p>
+    </div>
+    <div class="message-body">
+      <ul>
+        {% for error in errores %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  </article>
+{% endif %}
+
+
+
     {% if resultado %}
     <h2>Resultado:</h2>
 
     <h2>x = {{ resultado }}</h2>
-    <h2>Error = {{ error }} % </h2>
+    <h2>Error = {{ error_Calculado }} % </h2>
     <h3>Iteraciones:</h3>
     <table border="1">
         <tr>
