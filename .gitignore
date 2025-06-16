@@ -1,0 +1,3 @@
+# Ignorar imágenes generadas automáticamente
+/static/metodos/grafica_integral_numerica.svg
+/static/metodos/grafica_punto_fijo.svg
