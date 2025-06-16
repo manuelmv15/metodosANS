@@ -103,7 +103,7 @@ def GraficarITC(a, b, valores, tama, valoresH):
     
     fig, ax = plt.subplots(figsize=(18,8))
 
-    ax.fill_between(valoresH, valores, 'ro', label="F(x)")
+    ax.fill_between(valoresH, valores, label="F(x)")
     ax.grid(True)
 
     ax.set_title("Gráfica de f(x)", fontsize=24)

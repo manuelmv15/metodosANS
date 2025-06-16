@@ -30,14 +30,16 @@
     {% if AreaI %}
         <h2>Resultado:</h2>
 
-        <h2>Area integral = {{ AreaI }}</h2>
-        <h2>Area trapecio = {{ AreaT }}</h2>
-        <h2>Area trapecio compuesto = {{ AreaTC }}</h2>
+        <div>
+            <h4>Area integral = {{ AreaI }}</h4>
+            <h4>Area trapecio = {{ AreaT }}</h4>
+            <h4>Area trapecio compuesto = {{ AreaTC }}</h4>
 
-        <h2>Error trapecio = {{ errorT }}</h2>
-        <h2>Error trapecio compuesto = {{ errorTC }}</h2>
+            <h4>Error trapecio = {{ errorT }} %</h4>
+            <h4>Error trapecio compuesto = {{ errorTC }} %</h4>
+        </div>
 
-        <h3>Gráfica:</h3>
+        <h2>Gráfica:</h2>
         <img src="{% static 'metodos/grafica_integral_numerica.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">
 
     {% endif %}
