@@ -96,13 +96,21 @@ def IntegralNumerica(f, deci, a, b, tama):
     
     GraficarITC(a, b, valores, tama, valoresH)
     
-    return AreaI, AreaT, AreaTC, valores, valoresH, errorT, errorTC
+    return AreaI, AreaT, AreaTC, valores, valoresH, errorT, errorTC, tama
 
 def GraficarITC(a, b, valores, tama, valoresH):
-    fig, ax = plt.subplots()
+    plt.rcParams.update({'font.size': 20})
+    
+    fig, ax = plt.subplots(figsize=(18,8))
 
-    plt.fill_between(valoresH, valores)
-    plt.grid(True)
+    ax.fill_between(valoresH, valores, 'ro', label="F(x)")
+    ax.grid(True)
+
+    ax.set_title("Gráfica de f(x)", fontsize=24)
+    ax.set_xlabel("x", fontsize=20)
+    ax.set_ylabel("F(x)")
+    
+    ax.legend(loc='upper right')
 
     plt.tight_layout()
     plt.savefig("static/metodos/grafica_integral_numerica.svg", format='svg')
