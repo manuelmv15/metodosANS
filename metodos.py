@@ -98,31 +98,35 @@ def IntegralNumerica(f, deci, a, b, tama):
     
     h = (b - a)/tama
 
-    valores = np.zeros(tama+1)
-    valoresH = np.zeros(tama+1)
+    valores = [tama+1]
     
     for i in range(tama+1):
-        valores[i] = fff.subs(x, a+(h*i))
-        valoresH[i] = a+(h*i)
+        valores.append([fff.subs(x, a+(h*i)), a+(h*i)])
         
     if valores.size > 2:
-        resto = np.sum(valores[np.arange(1,tama)])
+        resto = np.sum(valores[np.arange(1,tama)][0])
     
     AreaTC = round((b-a)*((fa+fb+2*resto)/(2*tama)), deci)#Area trapecio compuesta
     
     errorT = round(Abs((AreaI - AreaT) / AreaI) * 100, deci)
     errorTC = round(Abs((AreaI - AreaTC) / AreaI) * 100, deci)
     
-    GraficarITC(a, b, valores, tama, valoresH)
+    GraficarITC(a, b, valores, tama)
     
-    return AreaI, AreaT, AreaTC, valores, valoresH, errorT, errorTC, tama
+    return AreaI, AreaT, AreaTC, valores, errorT, errorTC, tama
 
-def GraficarITC(a, b, valores, tama, valoresH):
+def GraficarITC(a, b, valores, tama):
     plt.rcParams.update({'font.size': 20})
     
     fig, ax = plt.subplots(figsize=(18,8))
+    
+    vH, vF = [tama+1], [tama+1]
+    
+    for i in range(tama+1):
+        vH.append(valores[1][i])
+        vF.append(valores[i][0])
 
-    ax.fill_between(valoresH, valores, label="F(x)")
+    ax.fill_between(vH, vF, label="F(x)")
     ax.grid(True)
 
     ax.set_title("Gráfica de f(x)", fontsize=24)

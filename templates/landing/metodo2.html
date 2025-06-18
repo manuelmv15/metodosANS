@@ -27,6 +27,14 @@
     <button type="submit">Calcular</button>
 </form>
 
+{% if errores %}
+  <ul class="has-text-danger">
+    {% for error in errores %}
+      <li>{{ error }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
     {% if AreaI %}
         <h2>Resultado:</h2>
 

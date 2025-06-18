@@ -1,8 +1,8 @@
 import re
 from django.shortcuts import render, redirect
 from accounts.models import MiUsuario
-from metodos import puntoFijo
-from usuario.models import HistorialPuntoFijo, Iteracion
+from metodos import puntoFijo, IntegralNumerica
+from usuario.models import HistorialPuntoFijo, Iteracion, HistorialMetodo2, ValoresMetodo2
 import sympy as sp
 
 def inicio_usuario(request):
@@ -124,7 +124,102 @@ def usuario_metodo1(request):
 def usuario_metodo2(request):
     if 'usuario_id' not in request.session:
         return redirect('vista_invitado')
-    return render(request, 'usuario/metodo2.html', {'modo': 'usuario'})
+    
+    AreaI = 0.0
+    AreaT = 0.0
+    AreaTC = 0.0
+    valores = []
+    valoresH = []
+    funcion = ''
+    limite_a = 0.0
+    limite_b = 0.0
+    decimales = 4
+    errorT = 0.0
+    errorTC = 0.0
+    valor_t = 0
+    errores = []
+    
+    if request.method == 'POST':
+        funcion = request.POST.get('funcion')
+
+        if not funcion or funcion.strip() == "":
+            errores.append("La función g(x) no puede estar vacía.")
+        else:
+            try:
+                sp.sympify(funcion)
+            except (sp.SympifyError, SyntaxError):
+                errores.append("La función ingresada no es válida. Usa notación válida como: exp(x), sin(x), x**2, etc.")
+        
+        try:
+            limite_a = float(request.POST.get('limite_a'))
+        except (ValueError, TypeError):
+            errores.append("el limite inferior no es valido.")
+            
+        try:
+            limite_b = float(request.POST.get('limite_b'))
+        except (ValueError, TypeError):
+            errores.append("el limite superior no es valido.")
+        
+        try:
+            valor_t = int(request.POST.get('valor_t'))
+            if not (2 <= valor_t <= 25):
+                errores.append("Las los segmentos no pueden ser mayores a 25 ni menores de 2.")
+        except (ValueError, TypeError):
+            errores.append("Los segmentos deben ser un número entero.")
+        
+        try:
+            decimales = int(request.POST.get('deci_v'))
+            if not (2 <= decimales <= 10):
+                errores.append("Los decimales deben estar entre 2 y 10.")
+        except (ValueError, TypeError):
+            errores.append("Decimales debe ser un número entero.")
+        
+        if not errores:
+            try:
+                limite_a = float(request.POST.get('limite_a'))
+                limite_b = float(request.POST.get('limite_b'))
+                valor_t = int(request.POST.get('valor_t'))
+
+                AreaI, AreaT, AreaTC, valores, errorT, errorTC, valor_t = IntegralNumerica(funcion, decimales, limite_a, limite_b, valor_t)
+
+                usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
+                
+                historial = HistorialMetodo2.objects.create(
+                    usuario=usuario,
+                    funcion=funcion,
+                    AreaI=AreaI,
+                    AreaT=AreaT,
+                    AreaTC=AreaTC,
+                    errorT = errorT,
+                    errorTC=errorTC,
+                    n_espacios=valor_t,
+                    decimales= decimales
+                )
+                
+                for i, it in enumerate(valores, start=1):
+                    ValoresMetodo2.objects.create(
+                        ejercicio=historial,
+                        valorF=valores[i],
+                        valorH=valoresH[i]
+                    )
+
+            except Exception as e:
+                errores.append(f"Error en el cálculo: {str(e)}")
+
+    return render(request, 'landing/metodo2.html', {
+        'modo': 'usuario',
+        'AreaI': AreaI,
+        'AreaT': AreaT,
+        'AreaTC': AreaTC,
+        'errorT': errorT,
+        'errorTC': errorTC,
+        'funcion': funcion,
+        'limite_a': limite_a,
+        'limite_b': limite_b,
+        'valor_t': valor_t,
+        'valores': valores,
+        'errores': errores
+    })
 
 def usuario_documentacion(request):
     if 'usuario_id' not in request.session:

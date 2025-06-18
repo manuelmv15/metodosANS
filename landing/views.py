@@ -75,22 +75,40 @@ def landing_metodo2(request):
     errorT = 0.0
     errorTC = 0.0
     valor_t = 0
+    errores = []
     
     if request.method == 'POST':
         funcion = request.POST.get('funcion')
 
         if not funcion or funcion.strip() == "":
-            AreaI = "Por favor, ingresa una ecuación válida en g(x)."
-        else:
+            errores.append("La función g(x) no puede estar vacía.")
+        
+        try:
+            limite_a = float(request.POST.get('limite_a'))
+        except (ValueError, TypeError):
+            errores.append("el limite inferior no es valido.")
+            
+        try:
+            limite_b = float(request.POST.get('limite_b'))
+        except (ValueError, TypeError):
+            errores.append("el limite superior no es valido.")
+        
+        try:
+            valor_t = int(request.POST.get('valor_t'))
+            if not (2 <= valor_t <= 25):
+                errores.append("Las los segmentos no pueden ser mayores a 25 ni menores de 2.")
+        except (ValueError, TypeError):
+            errores.append("Los segmentos deben ser un número entero.")
+        if not errores:
             try:
                 limite_a = float(request.POST.get('limite_a'))
                 limite_b = float(request.POST.get('limite_b'))
                 valor_t = int(request.POST.get('valor_t'))
 
-                AreaI, AreaT, AreaTC, valores, valoresH, errorT, errorTC, valor_t = IntegralNumerica(funcion, decimales, limite_a, limite_b, valor_t)
+                AreaI, AreaT, AreaTC, valores, errorT, errorTC, valor_t = IntegralNumerica(funcion, decimales, limite_a, limite_b, valor_t)
 
             except Exception as e:
-                AreaI = f"Error: {str(e)}"
+                errores.append(f"Error durante el cálculo: {str(e)}")
 
     return render(request, 'landing/metodo2.html', {
         'modo': 'landing',

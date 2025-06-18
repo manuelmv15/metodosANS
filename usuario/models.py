@@ -29,3 +29,28 @@ class Iteracion(models.Model):
     class Meta:
         db_table = 'tblIteracionesPuntoFijo'
 
+class HistorialMetodo2(models.Model):
+    usuario = models.ForeignKey(MiUsuario, on_delete=models.CASCADE, db_column='usuario_id')
+    funcion = models.CharField(max_length=255)
+    AreaI = models.FloatField()
+    AreaT = models.FloatField()
+    AreaTC = models.FloatField()
+    errorT = models.FloatField()
+    errorTC = models.FloatField()
+    n_espacios = models.IntegerField()
+    decimales = models.IntegerField()
+    fecha = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        db_table = 'tblHistorialMetodo2'
+
+    def __str__(self):
+        return f"{self.usuario.user} - {self.funcion} ({self.fecha})"
+
+class ValoresMetodo2(models.Model):
+    ejercicio = models.ForeignKey(HistorialMetodo2, on_delete=models.CASCADE, related_name='valores')
+    valorF = models.FloatField()
+    valorH = models.FloatField()
+
+    class Meta:
+        db_table = 'tblValoresMetodo2'
