@@ -232,11 +232,13 @@ def usuario_perfil(request):
 
     usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
     historial = HistorialPuntoFijo.objects.filter(usuario=usuario).prefetch_related('iteraciones').order_by('-fecha')
+    histoM = HistorialMetodo2.objects.filter(usuario=usuario).prefetch_related('valores').order_by('-fecha')
 
     return render(request, 'usuario/perfil.html', {
         'modo': 'usuario',
         'usuario': usuario,
-        'historial': historial
+        'historial': historial,
+        'histoM': histoM
     })
 
 
