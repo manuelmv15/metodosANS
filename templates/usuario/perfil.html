@@ -34,11 +34,12 @@
           <th>Resultado</th>
           <th>Error (%)</th>
           <th>Fecha</th>
-          <th>Botón</th>
+          <th>iteracion</th>
+          <th>mandar</th>
         </tr>
       </thead>
       <tbody>
-        {% for h in historial %}
+      {% for h in historial %}
         <tr>
           <td>{{ h.funcion }}</td>
           <td>{{ h.x0 }}</td>
@@ -48,48 +49,63 @@
           <td>{{ h.resultado_final }}</td>
           <td>{{ h.error_Calculado }}</td>
           <td>{{ h.fecha|date:"d/m/Y H:i" }}</td>
+          <td ><button class="boton-ver" onclick="toggleTodo({{ forloop.counter }})">Ver</button></td>
           <td>
-            <button class="boton-ver" onclick="toggleIteraciones('iteraciones-{{ forloop.counter }}')">
-              Ver
-            </button>
-          </td>
+<a href="{% url 'metodo1_usuario' %}?funcion={{ h.funcion|urlencode }}&x0={{ h.x0 }}&nIteraciones={{ h.n_iteraciones }}&decimales={{ h.decimales }}&error_final={{ h.error_final }}" class="boton-ver">mandar</a>
+
+
+
+
+
+</td>
+
         </tr>
 
-       <tr id="iteraciones-{{ forloop.counter }}" class="fila-oculta fila-expandible">
-          <td colspan="9">
-            <div class="iteraciones-scroll">
-              <strong>Iteraciones:</strong>
-              <table class="subtabla">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>x anterior</th>
-                    <th>x nueva</th>
-                    <th>Error (%)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for iter in h.iteraciones.all %}
-                  <tr>
-                    <td>{{ iter.numero_iteracion }}</td>
-                    <td>{{ iter.x_anterior }}</td>
-                    <td>{{ iter.x_nueva }}</td>
-                    <td>{{ iter.error }}</td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          </td>
-        </tr>
-        {% endfor %}
+       <tr id="detalles-{{ forloop.counter }}" class="fila-oculta fila-expandible">
+  <td colspan="10">
+    <div class="iteraciones-scroll">
+      <strong>Iteraciones:</strong>
+      <table class="subtabla">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>x anterior</th>
+            <th>x nueva</th>
+            <th>Error (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for iter in h.iteraciones.all %}
+          <tr>
+            <td>{{ iter.numero_iteracion }}</td>
+            <td>{{ iter.x_anterior }}</td>
+            <td>{{ iter.x_nueva }}</td>
+            <td>{{ iter.error }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div style="margin-top: 20px; text-align: center;">
+      {% if h.imagen %}
+        <img src="{{ h.imagen.url }}" alt="Gráfica del método" style="max-width: 400px; border: 1px solid #ccc; padding: 5px;">
+      {% else %}
+        <p style="color: gray;">No se ha generado gráfica.</p>
+      {% endif %}
+    </div>
+  </td>
+</tr>
+
+
+      {% endfor %}
+      
       </tbody>
     </table>
   </div>
   {% else %}
     <p>No hay historial disponible.</p>
   {% endif %}
-</section>
 
 </div>
 
@@ -163,19 +179,14 @@
 </div>
 
 
+{% if historial.imagen %}
+  <h3>Gráfica guardada:</h3>
+  <img src="{{ historial.imagen.url }}" alt="Gráfica del método">
+{% endif %}
 
  
 <script>
-function toggleIteraciones(id) {
-  const fila = document.getElementById(id);
-  fila.classList.toggle('fila-visible');
-  fila.classList.toggle('fila-oculta');
-}
-function toggleValores(id) {
-  const fila = document.getElementById(id);
-  fila.classList.toggle('fila-visible');
-  fila.classList.toggle('fila-oculta');
-}
+
 function mostrarMetodo(id, enlace) {
   // Oculta todos los divs
   document.querySelectorAll('.contenido-metodo').forEach(div => {
@@ -190,7 +201,25 @@ function mostrarMetodo(id, enlace) {
   // Muestra el div correspondiente
   document.getElementById(id).classList.add('visible');
   enlace.classList.add('activo');
+  
 }
+function toggleTodo(id) {
+  const fila = document.getElementById("detalles-" + id);
+  fila.classList.toggle("fila-visible");
+  fila.classList.toggle("fila-oculta");
+}
+
+function llenarFormulario(funcion, x0, iteraciones, decimales, errorFinal) {
+  document.getElementById('campo-funcion').value = funcion;
+  document.getElementById('campo-x0').value = x0;
+  document.getElementById('campo-iteraciones').value = iteraciones;
+  document.getElementById('campo-decimales').value = decimales;
+  document.getElementById('campo-error').value = errorFinal;
+  
+  // Puedes hacer que el formulario se envíe automáticamente si deseas:
+  // document.querySelector("form").submit();
+}
+
 </script>
 
 {% endblock %}

@@ -10,11 +10,12 @@ def evaluarFuncion(ecuacion, x0, decimales):
     return np.round(fx(x0), decimales)
 
 def Error(X_nueva, X_Vieja, decimales):
-
-    if X_nueva == 0:
-        return 0
+    
+    if np.isclose(X_nueva, 0.0, atol=1e-12):
+        return float('inf')  # o un valor alto, para no detener el método prematuramente
     error = np.abs((X_nueva - X_Vieja) / X_nueva) * 100
     return np.round(error, decimales)
+
 
 
 
@@ -26,29 +27,33 @@ def puntoFijo(ecuacion_str, x_Vieja, decimales, error_final, nIteraciones):
     for i in range(nIteraciones):
         x_Nueva = evaluarFuncion(ecuacion, x_Vieja, decimales)
 
-        # Verificamos si el valor es finito y no demasiado grande
-        if not np.isfinite(x_Nueva) or abs(x_Nueva) > 1e6:
-            error = float('nan')
-            lista.append([float('inf'), float('nan')])
-            break
-
         error = Error(x_Nueva, x_Vieja, decimales)
 
         if not np.isfinite(error):
-            error = float('nan')
+            error = None
+
+        if not np.isfinite(x_Nueva) or abs(x_Nueva) > 1e6:
+            lista.append([None, None])
+            break  # salimos si x_Nueva es inválido
 
         lista.append([round(x_Vieja, decimales), error])
 
-        if error <= error_final:
+        if error is not None and error <= error_final:
             break
 
         x_Vieja = x_Nueva
 
+    print("ITERACIONES:")
+    for fila in lista:
+        print(fila)
+
     puntoFijoGrafica(ecuacion, lista, decimales)
-    return x_Nueva, lista, error
+    return x_Vieja, lista
 
 
 def puntoFijoGrafica(ecuacion, lista, decimales):
+    if not lista or lista[0][0] is None or lista[-1][0] is None:
+        return
     X0 = lista[0][0]  # Valor inicial
     x_ultimo = lista[-1][0]  # Última x evaluada
     

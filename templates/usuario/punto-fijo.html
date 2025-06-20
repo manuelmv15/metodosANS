@@ -12,23 +12,30 @@
     <form method="post">
     {% csrf_token %}
     
-    <label for="funcion">Ecuación g(x):</label>
-    <input type="text" name="funcion" value="{{ funcion|default:'E**-x' }}">  <!--no vacio-->
-
+    <label for="funcion">Ecuación g(x):</label> 
+    <input id="campo-funcion" type="text" name="funcion" value="{{ funcion|default:'E**-x' }}">
+<br>
 
     <label for="x0">x₀:</label>
-    <input type="number" name="x0" value="{{ x0 }}" step="any"><br> <!--no vacio-->
-
+    <input id="campo-x0" type="number" name="x0" value="{{ x0 }}" step="any">
+<br>
     <label for="nIteraciones">Iteraciones:</label>
-    <input type="number" name="nIteraciones" value="{{ nIteraciones }}"><br> <!--mayor a 1 menor a 25-->
-
+    <input id="campo-iteraciones" type="number" name="nIteraciones" value="{{ nIteraciones }}">
+<br>
     <label for="decimales">Decimales:</label> 
-    <input type="number" name="decimales" value="{{ decimales }}"><br> <!--mayor a 1 menor a 10-->
-
+    <input id="campo-decimales" type="number" name="decimales" value="{{ decimales }}">
+<br>
     <label for="error_final">Error final:</label> <!--mayor a 0-->
-    <input type="number" name="error_final" value="{{ error_final }}" step="any"><br>
-
+    <input id="campo-error" type="number" name="error_final" value="{{ error_final }}" step="any">
+<br>
     <button type="submit">Calcular</button>
+
+    
+
+
+
+
+
 </form>
 
 
@@ -49,7 +56,9 @@
 
 
 
-    {% if resultado %}
+{% if resultado is not None and not errores %}
+
+
     <h2>Resultado:</h2>
 
     <h2>x = {{ resultado }}</h2>
@@ -63,7 +72,15 @@
     <tr>
         <td>{{ forloop.counter }}</td>  <!-- Número de iteración -->
         <td>{{ fila.0 }}</td>            <!-- x anterior -->
-        <td>{{ fila.1 }}</td>            <!-- error -->
+        <td>
+  {% if fila.1 is None %}
+    demasiado grande
+  {% else %}
+    {{ fila.1 }}
+  {% endif %}
+</td>
+
+            
     </tr>
       {% endfor %}
 
@@ -72,5 +89,7 @@
     <img src="{% static 'metodos/grafica_punto_fijo.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">
 
     {% endif %}
+
+
 
 {% endblock %}

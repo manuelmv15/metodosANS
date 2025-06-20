@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 urlpatterns = [
     path('', views.inicio_usuario, name='inicio_usuario'),
@@ -9,3 +12,4 @@ urlpatterns = [
     path('perfil/', views.usuario_perfil, name='perfil'),
     path('cerrar/',views.cerrar_sesion, name="cerrar_sesion")
 ]
+

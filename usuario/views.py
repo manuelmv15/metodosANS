@@ -3,7 +3,15 @@ from django.shortcuts import render, redirect
 from accounts.models import MiUsuario
 from metodos import puntoFijo, IntegralNumerica
 from usuario.models import HistorialPuntoFijo, Iteracion, HistorialMetodo2, ValoresMetodo2
+from django.core.files import File
+import shutil
+import os 
 import sympy as sp
+import numpy as np
+from django.conf import settings
+from urllib.parse import unquote
+
+
 
 def inicio_usuario(request):
     nombre = request.session.get('usuario_nombre', None, )
@@ -31,6 +39,37 @@ def usuario_metodo1(request):
     error_Calculado = 0
     errores = []
 
+    # Cargar valores desde GET si están presentes (para autocompletar el formulario desde "mandar")
+        # Soporte para carga desde la URL (GET)
+    if request.method == 'GET' and request.GET.get('funcion'):
+        funcion = unquote(request.GET.get('funcion'))
+        x0 = float(request.GET.get('x0', 0))
+        nIteraciones = int(request.GET.get('nIteraciones', 10))
+        decimales = int(request.GET.get('decimales', 6))
+        error_final = float(request.GET.get('error_final', 0.1))
+
+
+        try:
+            x0 = float(x0)
+        except:
+            x0 = 0
+
+        try:
+            nIteraciones = int(nIteraciones)
+        except:
+            nIteraciones = 10
+
+        try:
+            decimales = int(decimales)
+        except:
+            decimales = 6
+
+        try:
+            error_final = float(str(error_final).replace(",", "."))
+        except:
+            error_final = 0.1
+
+    # Procesamiento del formulario (cálculo solo si es POST)
     if request.method == 'POST':
         funcion = request.POST.get('funcion')
         x0_str = request.POST.get('x0')
@@ -38,7 +77,7 @@ def usuario_metodo1(request):
         decimales_str = request.POST.get('decimales')
         error_final_str = request.POST.get('error_final')
 
-        # Validar que solo contenga caracteres matemáticos
+        # Validar función
         if not funcion or funcion.strip() == "":
             errores.append("La función g(x) no puede estar vacía.")
         else:
@@ -55,8 +94,8 @@ def usuario_metodo1(request):
 
         try:
             nIteraciones = int(nIteraciones_str)
-            if not (2 <= nIteraciones <= 25):
-                errores.append("Las iteraciones deben estar entre 2 y 25.")
+            if not (2 <= nIteraciones <= 50):
+                errores.append("Las iteraciones deben estar entre 2 y 50.")
         except (ValueError, TypeError):
             errores.append("Iteraciones debe ser un número entero.")
 
@@ -74,38 +113,55 @@ def usuario_metodo1(request):
         except (ValueError, TypeError):
             errores.append("Error final debe ser un número válido.")
 
-        # Si no hay errores, ejecutar el método
+        # Cálculo del método
+        try:
+            resultado, iteraciones = puntoFijo(funcion, x0, decimales, error_final, nIteraciones)
+
+            if not np.isfinite(resultado):
+                errores.append("El método no converge con el valor inicial dado.")
+        except Exception as e:
+            errores.append(f"Error en el cálculo: {str(e)}")
+
+        # Guardar en la base si no hubo errores
         if not errores:
             try:
-                resultado, iteraciones, error_Calculado = puntoFijo(funcion, x0, decimales, error_final, nIteraciones)
+                error_Calculado = iteraciones[-1][1]
 
-                usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
+                if not isinstance(error_Calculado, (int, float)) or not np.isfinite(error_Calculado):
+                    errores.append("El método no converge o el error calculado es inválido.")
+                else:
+                    usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
 
-                historial = HistorialPuntoFijo.objects.create(
-                    usuario=usuario,
-                    funcion=funcion,
-                    x0=x0,
-                    n_iteraciones=nIteraciones,
-                    decimales=decimales,
-                    error_final=error_final,
-                    resultado_final=resultado,
-                    error_Calculado=error_Calculado
-                )
-
-                for i, it in enumerate(iteraciones, start=1):
-                    Iteracion.objects.create(
-                        ejercicio=historial,
-                        numero_iteracion=i,
-                        x_anterior=iteraciones[i - 1][0] if i > 1 else x0,
-                        x_nueva=it[0],
-                        error=it[1]
+                    historial = HistorialPuntoFijo.objects.create(
+                        usuario=usuario,
+                        funcion=funcion,
+                        x0=x0,
+                        n_iteraciones=nIteraciones,
+                        decimales=decimales,
+                        error_final=error_final,
+                        resultado_final=resultado,
+                        error_Calculado=error_Calculado
                     )
 
-                if iteraciones:
-                    porcentajeError = iteraciones[-1][1]
+                    ruta_static_svg = os.path.join(settings.BASE_DIR, 'static/metodos/grafica_punto_fijo.svg')
+                    nuevo_nombre = f'grafica_punto_fijo_usuario_{usuario.id}_{historial.id}.svg'
 
+                    with open(ruta_static_svg, 'rb') as f:
+                        historial.imagen.save(nuevo_nombre, File(f), save=True)
+
+                    for i, it in enumerate(iteraciones, start=1):
+                        Iteracion.objects.create(
+                            ejercicio=historial,
+                            numero_iteracion=i,
+                            x_anterior=iteraciones[i - 1][0] if i > 1 else x0,
+                            x_nueva=it[0],
+                            error=it[1]
+                        )
+
+                    if iteraciones:
+                        porcentajeError = iteraciones[-1][1]
             except Exception as e:
-                errores.append(f"Error en el cálculo: {str(e)}")
+                errores.append(f"Error en el guardado: {str(e)}")
 
     return render(request, 'usuario/punto-fijo.html', {
         'modo': 'usuario',
@@ -162,7 +218,7 @@ def usuario_metodo2(request):
         
         try:
             valor_t = int(request.POST.get('valor_t'))
-            if not (2 <= valor_t <= 25):
+            if not (2 <= valor_t <= 50):
                 errores.append("Las los segmentos no pueden ser mayores a 25 ni menores de 2.")
         except (ValueError, TypeError):
             errores.append("Los segmentos deben ser un número entero.")

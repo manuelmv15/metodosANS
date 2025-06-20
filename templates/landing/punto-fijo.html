@@ -34,14 +34,16 @@
 
 
 
-    {% if resultado %}
+
+{% if resultado is not None and not errores %}
     <h2>Resultado:</h2>
 
     <h2>x = {{ resultado }}</h2>
     <h2>Error = {{ error }} % </h2>
     
     <h3>Gráfica:</h3>
-    <img class="img-metodo" src="{% static 'metodos/grafica_punto_fijo.svg' %}" alt="Gráfica del método de punto fijo">
+    <img src="{% static 'metodos/grafica_punto_fijo.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">
+
 
     {% endif %}
 

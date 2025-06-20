@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from metodos import puntoFijo, IntegralNumerica
-
+import numpy as np
 
 
 def landing_index(request):
@@ -14,9 +14,10 @@ def landing_metodo1(request):
     x0 = 0
     decimales = 4
     error_final = 0.01
-    nIteraciones = 10
+    nIteraciones = 15
     porcentajeError = 0
     errores = []
+    no_converge = False  # NUEVA BANDERA
 
     if request.method == 'POST':
         funcion = request.POST.get('funcion')
@@ -33,7 +34,7 @@ def landing_metodo1(request):
             errores.append("x₀ debe ser un número válido.")
 
         try:
-            error_final = float(error_final_str)
+            error_final = float(error_final_str.replace(",", "."))
             if error_final <= 0:
                 errores.append("El error final debe ser mayor a 0.")
         except (ValueError, TypeError):
@@ -43,14 +44,20 @@ def landing_metodo1(request):
             try:
                 resultado, iteraciones = puntoFijo(funcion, x0, decimales, error_final, nIteraciones)
 
-                if iteraciones:
+                if not np.isfinite(resultado):
+                    errores.append("El método no converge con el valor inicial dado.")
+                elif iteraciones and (iteraciones[-1][1] is None or not np.isfinite(iteraciones[-1][1])):
+                    errores.append("El método no converge o el error calculado es inválido.")
+                else:
                     porcentajeError = iteraciones[-1][1]
+
             except Exception as e:
                 errores.append(f"Error durante el cálculo: {str(e)}")
 
+
     return render(request, 'landing/punto-fijo.html', {
         'modo': 'landing',
-        'resultado': resultado,
+        'resultado': None if no_converge else resultado,
         'iteraciones': iteraciones,
         'funcion': funcion,
         'x0': x0,
@@ -58,9 +65,9 @@ def landing_metodo1(request):
         'error_final': error_final,
         'error': porcentajeError,
         'nIteraciones': nIteraciones,
-        'errores': errores  # Importante pasar esto a la plantilla
+        'errores': errores,
+        'no_converge': no_converge  
     })
-
 
 def landing_metodo2(request):
     AreaI = 0.0
