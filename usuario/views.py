@@ -225,7 +225,7 @@ def usuario_metodo2(request):
         
         try:
             decimales = int(request.POST.get('deci_v'))
-            if not (2 <= decimales <= 10):
+            if not (1 <= decimales <= 10):
                 errores.append("Los decimales deben estar entre 2 y 10.")
         except (ValueError, TypeError):
             errores.append("Decimales debe ser un número entero.")

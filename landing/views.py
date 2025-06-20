@@ -133,3 +133,8 @@ def landing_metodo2(request):
 def landing_documentacion(request):
     return render(request, 'landing/documentacion.html', {'modo': 'landing'})
 
+def login(request): 
+    return render(request, 'accounts/login.html', {'modo': 'landing'})
+
+def registro(request): 
+    return render(request, 'accounts/registro.html', {'modo': 'landing'})  

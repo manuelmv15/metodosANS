@@ -92,6 +92,8 @@ def puntoFijoGrafica(ecuacion, lista, decimales):
 
 def IntegralNumerica(f, deci, a, b, tama):
     
+    tama = int(tama)
+    
     fff = sp.sympify(f)
     
     AreaI = round(integrate(fff, (x, a, b) ).evalf(), deci)
@@ -103,10 +105,11 @@ def IntegralNumerica(f, deci, a, b, tama):
     
     h = (b - a)/tama
 
-    valores = [tama+1]
+    valores = np.zeros([tama+1, tama+1])
     
     for i in range(tama+1):
-        valores.append([fff.subs(x, a+(h*i)), a+(h*i)])
+        valores[i][0]= fff.subs(x, a+(h*i))
+        valores[1][i] = (a+(h*i))
         
     if valores.size > 2:
         resto = np.sum(valores[np.arange(1,tama)][0])

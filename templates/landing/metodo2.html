@@ -1,14 +1,13 @@
 {% extends 'bases/base.html' %}
 
-
 {% block title %}Integración Númerica{% endblock %}
 
 {% load static %}
 
 {% block content %}
- <h1>Metodo del trapecio y trapecio compuesto</h1>
+  <h1>Metodo del trapecio y trapecio compuesto</h1>
 
-    <form method="post">
+  <form method="post">
     {% csrf_token %}
     
     <label for="funcion">Ecuación g(x):</label>
@@ -21,35 +20,38 @@
     <label for="limite_b">Limite superior: </label>
     <input type="number" name="limite_b" value="{{ limite_b|default:0.8 }}" step="0.1"><br>
 
+    <label for="deci_v">Número de decimales: </label>
+    <input type="number" name="deci_v" value="{{ deci_v|default:4 }}" step="1"><br>
+
     <label for="valor_t">Número intervalos para el trapecio compuesto: </label>
     <input type="number" name="valor_t" value="{{ valor_t|default:6 }}" step="1"><br>
 
     <button type="submit">Calcular</button>
-</form>
+  </form>
 
-{% if errores %}
-  <ul class="has-text-danger">
-    {% for error in errores %}
-      <li>{{ error }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
+  {% if errores %}
+    <ul class="has-text-danger">
+      {% for error in errores %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
-    {% if AreaI %}
-        <h2>Resultado:</h2>
+  {% if AreaI %}
+    <h2>Resultado:</h2>
 
-        <div>
-            <h4>Area integral = {{ AreaI }}</h4>
-            <h4>Area trapecio = {{ AreaT }}</h4>
-            <h4>Area trapecio compuesto = {{ AreaTC }}</h4>
+    <div>
+      <h4>Area integral = {{ AreaI }}</h4>
+      <h4>Area trapecio = {{ AreaT }}</h4>
+      <h4>Area trapecio compuesto = {{ AreaTC }}</h4>
 
-            <h4>Error trapecio = {{ errorT }} %</h4>
-            <h4>Error trapecio compuesto = {{ errorTC }} %</h4>
-        </div>
+      <h4>Error trapecio = {{ errorT }} %</h4>
+      <h4>Error trapecio compuesto = {{ errorTC }} %</h4>
+    </div>
 
-        <h2>Gráfica:</h2>
-        <img src="{% static 'metodos/grafica_integral_numerica.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">
+    <h2>Gráfica:</h2>
+    <img src="{% static 'metodos/grafica_integral_numerica.svg' %}" alt="Gráfica del método de punto fijo" style="width:100%; max-width:800px;">
 
-    {% endif %}
+  {% endif %}
 
 {% endblock %}
