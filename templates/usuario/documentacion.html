@@ -6,4 +6,282 @@
 {% block content %}
  <h1>documentacion</h1>
 
+<div class="main">
+        <aside class="main-aside">
+            <h2><a href="#">Herramientas</a></h2>
+            <ul >
+                <li><a href="#"> Python</a></li>
+                <li><a href="#"> NumPy</a></li>
+                <li><a href="#"> Matplotlib</a></li>
+                <li><a href="#"> Sympy</a></li>
+                <li><a href="#"> Django</a></li>
+            </ul>
+
+            <h2><a href="#">Metodos</a></h2>
+            <ul>
+                <li><a href="#"> metodo 1</a></li>
+                <li><a href="#"> metodo 2</a></li>
+            </ul>
+        </aside>
+
+          <section class="main-section">
+            <article id="python" class="content-block">
+              <h1>🐍 Python</h1>
+              <p>Python es un lenguaje de programación interpretado, de alto nivel y propósito general. Es ampliamente utilizado en análisis numérico, inteligencia artificial, desarrollo web, y más.</p>
+              <h3>Instalación</h3>
+              <pre><code># En Windows:
+1. Descargar desde https://python.org
+2. Ejecutar el instalador y marcar "Add to PATH"
+
+# En Linux:
+sudo apt update
+sudo apt install python3 python3-pip
+              </code></pre>
+            </article>
+
+            <article id="numpy" class="content-block">
+              <h1>📗 NumPy</h1>
+              <p>NumPy es una biblioteca fundamental para cálculos numéricos en Python. Proporciona arrays multidimensionales y funciones matemáticas rápidas.</p>
+              <h3>Instalación</h3>
+              <pre><code>pip install numpy</code></pre>
+            </article>
+
+            <article id="matplotlib" class="content-block">
+              <h1>📊 Matplotlib</h1>
+              <p>Matplotlib es una biblioteca de gráficos en Python para generar gráficos estáticos, animados e interactivos.</p>
+              
+              <h3>Instalación</h3>
+              <pre><code>pip install matplotlib</code></pre>
+              
+              <h3>Ejemplo</h3>
+              <pre><code>import matplotlib.pyplot as plt
+
+x = [1, 2, 3]
+y = [2, 4, 6]
+
+plt.plot(x, y)
+plt.show()</code></pre>
+            </article>
+
+            <article id="sympy" class="content-block">
+              <h1>🧮 Sympy</h1>
+              <p>Sympy es una biblioteca para cálculo simbólico en Python, ideal para álgebra, derivadas, integrales, y más.</p>
+              <h3>Ejemplo</h3>
+              <pre><code>from sympy import symbols, diff
+
+x = symbols('x')
+expr = x**2 + 3*x + 2
+diff(expr, x)
+              </code></pre>
+            </article>
+
+            <article id="django" class="content-block">
+              <h1>🌐 Django</h1>
+              <p>Django es un framework web de alto nivel que permite un desarrollo rápido con un diseño limpio y pragmático.</p>
+              <h3>Instalación</h3>
+              <pre><code>pip install django</code></pre>
+            </article>
+
+            <article id="metodo1" class="content-block">
+              <h1>📌 Método 1</h1>
+              <p>Este método consiste en aplicar una técnica iterativa para 
+                encontrar raíces de funciones no lineales.</p>
+              <br>
+              <p>Los métodos abiertos emplean una fórmula para predecir la raíz. Esta 
+fórmula puede desarrollarse como una iteración simple de punto fijo, al arreglar la 
+ecuación f(x) = 0 de tal modo que x esté del lado izquierdo de la ecuación:</p><br>
+              <p> x = g(x) (ecuación 1) </p><br>
+              <p>
+                 Esta transformación se realiza mediante operaciones algebraicas o simplemente 
+                 sumando x a cada lado de la ecuación original. Por ejemplo:
+              </p><br>
+              <p> 
+                <math display="block">
+                  <mrow>
+                    <msup>
+                      <mi>x</mi>
+                      <mn>2</mn>
+                    </msup>
+                    <mo>-</mo>
+                    <mn>2</mn>
+                    <mi>x</mi>
+                    <mo>+</mo>
+                    <mn>3</mn>
+                    <mo>=</mo>
+                    <mn>0</mn>
+                  </mrow>
+                </math>
+              </p><br>
+              <p>se convierte en </p><br>
+              <p>
+                <math display="block">
+                  <mrow>
+                    <mi>x</mi>
+                    <mo>=</mo>
+                    <mfrac>
+                      <mrow>
+                        <mo>(</mo>
+                        <msup>
+                          <mi>x</mi>
+                          <mn>2</mn>
+                        </msup>
+                        <mo>-</mo>
+                        <mn>3</mn>
+                        <mo>)</mo>
+                      </mrow>
+                      <mn>2</mn>
+                    </mfrac>
+                  </mrow>
+                </math>
+              </p><br>
+              <p>
+                 La utilidad de la ecuación (6.1) es que proporciona una fórmula para predecir un 
+nuevo valor de x en función del valor anterior de x. De esta manera, dado un valor inicial 
+para la raíz xi, la ecuación (6.1) se utiliza para obtener una nueva aproximación xi+1, 
+expresada por la fórmula iterativa.
+              </p><br>
+              <p>
+                <math display="block">
+                  <mrow>
+                    <msub>
+                      <mi>x</mi>
+                      <mrow>
+                        <mi>i</mi>
+                        <mo>+</mo>
+                        <mn>1</mn>
+                      </mrow>
+                    </msub>
+                    <mo>=</mo>
+                    <mrow>
+                      <mi>g</mi>
+                      <mo>(</mo>
+                        <msub>
+                          <mo>x</mo>
+                          <mi>i</mi>
+                        </msub>
+                      <mo>)</mo>
+                    </mrow>
+                  </mrow>
+                </math>
+              </p><br>
+              <p>Para obteber el error aproximado de cada iteración se usara el error normalizado:</p><br>
+              <p>
+                <math display="block">
+                  <mrow>
+                    <msub>
+                      <mo>E</mo>
+                      <mi>a</mi>
+                    </msub>
+                    <mo>=</mo>
+                    <mrow>
+                      <mo>|</mo>
+                        <mfrac>
+                          <mrow>
+                            <msub>
+                              <mi>x</mi>
+                              <mrow>
+                                <mi>i</mi>
+                                <mo>+</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msub>
+                            <mo>-</mo>
+                            <msub>
+                              <mi>x</mi>
+                              <mi>i</mi>
+                            </msub>
+                          </mrow>
+                          <msub>
+                              <mi>x</mi>
+                              <mrow>
+                                <mi>i</mi>
+                                <mo>+</mo>
+                                <mn>1</mn>
+                              </mrow>
+                            </msub>
+                        </mfrac>
+                      <mo>|</mo>
+                    </mrow>
+                    <mn>100</mn>
+                    <mo>%</mo>
+                  </mrow>
+                </math>
+              </p><br>
+              <h3>Parámetros:</h3>
+              <ul>
+                <li>Función f(x)</li>
+                <li>Valor inicial x₀</li>
+                <li>Condición de error</li>
+              </ul>
+              <h1>¿Cómo usar el Método de Punto Fijo en esta aplicación?</h1>
+
+  <div class="panel">
+    <p>Este módulo permite encontrar una solución aproximada a ecuaciones del tipo <strong>f(x) = 0</strong> usando el método iterativo de punto fijo.</p>
+  </div>
+
+  <h2>Pasos para usarlo:</h2>
+  <ul>
+    <li><strong>1. Ecuación g(x):</strong> Ingrese la función <code>g(x)</code> en notación de Python. Ejemplo: <code>exp(-x)</code> o <code>cos(x)</code>.</li>
+    <li><strong>2. x₀:</strong> Ingrese el valor inicial de la variable <code>x</code>.</li>
+    <li><strong>3. Error final:</strong> Ingrese el error máximo permitido (en porcentaje) para detener el método. Ejemplo: <code>0.01</code> para 0.01%.</li>
+    <li><strong>4. Calcular:</strong> Haga clic en el botón para ejecutar el método.</li>
+  </ul>
+
+  <h2>¿Qué muestra la app?</h2>
+  <ul>
+    <li>El valor aproximado de la raíz.</li>
+    <li>El error relativo porcentual al finalizar.</li>
+    <li>Una gráfica de la función y el punto final alcanzado.</li>
+  </ul>
+
+  <h2>Notas:</h2>
+  <ul>
+    <li>Si el método no converge, se mostrará un mensaje de advertencia.</li>
+    <li>El ejercicio solo se hara con 15 iteraciones maximo.</li>
+    <li>La aproximacion se hara a cuatro decimales.</li>
+  </ul>
+            </article>
+
+            <article id="metodo2" class="content-block">
+              <h1>📌 Método 2</h1>
+              <p>Este método utiliza diferencias divididas para interpolación polinómica basada en puntos conocidos.</p>
+              <p>Las fórmulas de Newton-Cotes son los tipos de integración numérica más comunes. Se 
+basan en la estrategia de reemplazar una función complicada o datos tabulados por un 
+polinomio de aproximación que es fácil de integrar:</p>
+              <h3>Requiere:</h3>
+              <ul>
+                <li>Puntos (x, y)</li>
+                <li>Orden de interpolación</li>
+              </ul>
+              <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xa0;</mo><mo>=</mo><mo>&#xa0;</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mi>a</mi><mi>b</mi></munderover><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi lspace="0.2em" rspace="0">d</mi><mi>x</mi><mo>&#xa0;</mo><mo>&#x2245;</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mi>a</mi><mi>b</mi></munderover><msub><mi>f</mi><mi>n</mi></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi lspace="0.2em" rspace="0">d</mi><mi>x</mi></math>
+            
+              <p>donde <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mi>n</mi></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></math> = un polinomio de la forma:</P>
+              <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mi>n</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><msub><mi>a</mi><mn>0</mn></msub><mo>&#xA0;</mo><mo>+</mo><mo>&#xA0;</mo><msub><mi>a</mi><mn>1</mn></msub><mi>x</mi><mo>&#xA0;</mo><mo>+</mo><mo>&#xA0;</mo><mo>.</mo><mo>.</mo><mo>.</mo><msub><mi>a</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub><msup><mi>x</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msup><mo>+</mo><mo>&#xA0;</mo><msub><mi>a</mi><mi>n</mi></msub><msup><mi>x</mi><mi>n</mi></msup></math>
+
+              <p>donde n es el grado del polinomio.</p>
+
+              <p> La integral también se puede aproximar usando un conjunto de polinomios apli
+cados por pedazos a la función o datos, sobre segmentos de longitud constante.</p>
+
+                <h3>La regla del trapecio</h3>
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mn>1</mn></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>+</mo><mfrac><mrow><mi>f</mi><mo>(</mo><mi>b</mi><mo>)</mo><mo>-</mo><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo></mrow><mrow><mi>b</mi><mo>-</mo><mi>a</mi></mrow></mfrac><mo>(</mo><mi>x</mi><mo>-</mo><mi>a</mi><mo>)</mo></math>
+                <p>Mediante despejes y agrupaciones obtenemos la formula general:</p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mo>(</mo><mi>b</mi><mo>-</mo><mi>a</mi><mo>)</mo><mfrac><mrow><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>+</mo><mi>f</mi><mo>(</mo><mi>b</mi><mo>)</mo></mrow><mn>2</mn></mfrac></math>
+                <h3>La regla del trapecio de aplicación múltiple</h3>
+                <p>Una forma de mejorar la precisión de la regla del trapecio consiste en dividir el interva
+lo de integración de a a b en varios segmentos, y aplicar el método a cada uno de ellos.<p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>h</mi><mo>=</mo><mfrac><mrow><mi>b</mi><mo>-</mo><mi>a</mi></mrow><mi>n</mi></mfrac></math>
+                <p>Si a y b se designan como x0
+ y xn
+ , respectivamente, la integral completa se representará como </p>
+                  <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mrow><mi>x</mi><mn>0</mn></mrow><mrow><mi>x</mi><mn>1</mn></mrow></munderover><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>d</mi><mi>x</mi><mo>+</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mrow><mi>x</mi><mn>1</mn></mrow><mrow><mi>x</mi><mn>2</mn></mrow></munderover><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi>d</mi><mi>x</mi><mo>+</mo><mo>.</mo><mo>.</mo><mo>.</mo><mo>+</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub></mrow><mrow><msub><mi>x</mi><mi>n</mi></msub></mrow></munderover><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi>d</mi><mi>x</mi></math>
+<p> Sustituyendo la regla del trapecio en cada integral se obtiene</p>
+<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mi>h</mi><mfrac><mrow><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo><mo>+</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>)</mo></mrow><mn>2</mn></mfrac><mo>+</mo><mi>h</mi><mfrac><mrow><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><mo>)</mo></mrow><mo>+</mo><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><mo>)</mo></mrow></mrow><mn>2</mn></mfrac><mo>+</mo><mo>.</mo><mo>.</mo><mo>.</mo><mo>+</mo><mi>h</mi><mfrac><mrow><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub></mrow><mo>)</mo></mrow><mo>+</mo><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mi>n</mi></msub></mrow><mo>)</mo></mrow></mrow><mn>2</mn></mfrac></math>
+<p>agrupando tenemos:</p>
+<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mfrac><mi>h</mi><mn>2</mn></mfrac><mo>[</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo><mo>+</mo><mn>2</mn><munderover accent='false' accentunder='false'><mo>&#x2211;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></munderover><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo><mo>+</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>]</mo></math>
+              </article>
+          </section>
+
+        </div>
+
 {% endblock %}

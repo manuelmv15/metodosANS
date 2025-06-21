@@ -10,17 +10,20 @@
 
 {% block content %}
 
-  <h2>Iniciar sesión</h2>
-  <form method="post" class="login">
-      {% csrf_token %}
-      <label for="user" class="login_I">Usuario:</label>
-      <input type="text" name="user" placeholder="Nombre" class="login_R" required><br>
+  <div class="conte-LR">
+    <h2>Iniciar sesión</h2>
+    <form method="post" >
+        <div class="login">
+          {% csrf_token %}
+          <label for="user" class="login_I">Usuario:</label>
+          <input type="text" name="user" placeholder="Nombre" class="login_R" required><br>
 
-      <label for="password" class="login_I">Contraseña:</label>
-      <input type="password" name="password" placeholder="Contraseña" class="login_R" required><br>
-
-      <button type="submit" class="login_R login_B">Entrar</button>
-  </form>
+          <label for="password" class="login_I">Contraseña:</label>
+          <input type="password" name="password" placeholder="Contraseña" class="login_R" required><br>
+        </div>
+        <button type="submit">Entrar</button>
+    </form>
+  </div>
 
   {% if messages %}
     {% for message in messages %}

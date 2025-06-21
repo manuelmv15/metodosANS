@@ -245,12 +245,41 @@ expresada por la fórmula iterativa.
             <article id="metodo2" class="content-block">
               <h1>📌 Método 2</h1>
               <p>Este método utiliza diferencias divididas para interpolación polinómica basada en puntos conocidos.</p>
+              <p>Las fórmulas de Newton-Cotes son los tipos de integración numérica más comunes. Se 
+basan en la estrategia de reemplazar una función complicada o datos tabulados por un 
+polinomio de aproximación que es fácil de integrar:</p>
               <h3>Requiere:</h3>
               <ul>
                 <li>Puntos (x, y)</li>
                 <li>Orden de interpolación</li>
               </ul>
-            </article>
+              <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xa0;</mo><mo>=</mo><mo>&#xa0;</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mi>a</mi><mi>b</mi></munderover><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi lspace="0.2em" rspace="0">d</mi><mi>x</mi><mo>&#xa0;</mo><mo>&#x2245;</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mi>a</mi><mi>b</mi></munderover><msub><mi>f</mi><mi>n</mi></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi lspace="0.2em" rspace="0">d</mi><mi>x</mi></math>
+            
+              <p>donde <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mi>n</mi></msub><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow></math> = un polinomio de la forma:</P>
+              <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mi>n</mi></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><msub><mi>a</mi><mn>0</mn></msub><mo>&#xA0;</mo><mo>+</mo><mo>&#xA0;</mo><msub><mi>a</mi><mn>1</mn></msub><mi>x</mi><mo>&#xA0;</mo><mo>+</mo><mo>&#xA0;</mo><mo>.</mo><mo>.</mo><mo>.</mo><msub><mi>a</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub><msup><mi>x</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msup><mo>+</mo><mo>&#xA0;</mo><msub><mi>a</mi><mi>n</mi></msub><msup><mi>x</mi><mi>n</mi></msup></math>
+
+              <p>donde n es el grado del polinomio.</p>
+
+              <p> La integral también se puede aproximar usando un conjunto de polinomios apli
+cados por pedazos a la función o datos, sobre segmentos de longitud constante.</p>
+
+                <h3>La regla del trapecio</h3>
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><msub><mi>f</mi><mn>1</mn></msub><mo>(</mo><mi>x</mi><mo>)</mo><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>+</mo><mfrac><mrow><mi>f</mi><mo>(</mo><mi>b</mi><mo>)</mo><mo>-</mo><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo></mrow><mrow><mi>b</mi><mo>-</mo><mi>a</mi></mrow></mfrac><mo>(</mo><mi>x</mi><mo>-</mo><mi>a</mi><mo>)</mo></math>
+                <p>Mediante despejes y agrupaciones obtenemos la formula general:</p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mo>(</mo><mi>b</mi><mo>-</mo><mi>a</mi><mo>)</mo><mfrac><mrow><mi>f</mi><mo>(</mo><mi>a</mi><mo>)</mo><mo>+</mo><mi>f</mi><mo>(</mo><mi>b</mi><mo>)</mo></mrow><mn>2</mn></mfrac></math>
+                <h3>La regla del trapecio de aplicación múltiple</h3>
+                <p>Una forma de mejorar la precisión de la regla del trapecio consiste en dividir el interva
+lo de integración de a a b en varios segmentos, y aplicar el método a cada uno de ellos.<p>
+                <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>h</mi><mo>=</mo><mfrac><mrow><mi>b</mi><mo>-</mo><mi>a</mi></mrow><mi>n</mi></mfrac></math>
+                <p>Si a y b se designan como x0
+ y xn
+ , respectivamente, la integral completa se representará como </p>
+                  <math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mrow><mi>x</mi><mn>0</mn></mrow><mrow><mi>x</mi><mn>1</mn></mrow></munderover><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>d</mi><mi>x</mi><mo>+</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mrow><mi>x</mi><mn>1</mn></mrow><mrow><mi>x</mi><mn>2</mn></mrow></munderover><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi>d</mi><mi>x</mi><mo>+</mo><mo>.</mo><mo>.</mo><mo>.</mo><mo>+</mo><munderover accent='false' accentunder='false'><mo>&#x222b;</mo><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub></mrow><mrow><msub><mi>x</mi><mi>n</mi></msub></mrow></munderover><mi>f</mi><mrow><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi>d</mi><mi>x</mi></math>
+<p> Sustituyendo la regla del trapecio en cada integral se obtiene</p>
+<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mi>h</mi><mfrac><mrow><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo><mo>+</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>1</mn></msub><mo>)</mo></mrow><mn>2</mn></mfrac><mo>+</mo><mi>h</mi><mfrac><mrow><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mn>1</mn></msub></mrow><mo>)</mo></mrow><mo>+</mo><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mn>2</mn></msub></mrow><mo>)</mo></mrow></mrow><mn>2</mn></mfrac><mo>+</mo><mo>.</mo><mo>.</mo><mo>.</mo><mo>+</mo><mi>h</mi><mfrac><mrow><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msub></mrow><mo>)</mo></mrow><mo>+</mo><mi>f</mi><mrow><mo>(</mo><mrow><msub><mi>x</mi><mi>n</mi></msub></mrow><mo>)</mo></mrow></mrow><mn>2</mn></mfrac></math>
+<p>agrupando tenemos:</p>
+<math xmlns="http://www.w3.org/1998/Math/MathML"><mi>I</mi><mo>&#xA0;</mo><mo>=</mo><mo>&#xA0;</mo><mfrac><mi>h</mi><mn>2</mn></mfrac><mo>[</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mn>0</mn></msub><mo>)</mo><mo>+</mo><mn>2</mn><munderover accent='false' accentunder='false'><mo>&#x2211;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></munderover><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>)</mo><mo>+</mo><mi>f</mi><mo>(</mo><msub><mi>x</mi><mi>n</mi></msub><mo>)</mo><mo>]</mo></math>
+              </article>
           </section>
 
         </div>

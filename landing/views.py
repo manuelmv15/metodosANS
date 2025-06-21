@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from metodos import puntoFijo, IntegralNumerica
 import numpy as np
+from accounts.models import MiUsuario
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password
+from django.db import connection
 
 
 def landing_index(request):
@@ -74,7 +78,6 @@ def landing_metodo2(request):
     AreaT = 0.0
     AreaTC = 0.0
     valores = []
-    valoresH = []
     funcion = ''
     limite_a = 0.0
     limite_b = 0.0
@@ -127,14 +130,67 @@ def landing_metodo2(request):
         'funcion': funcion,
         'limite_a': limite_a,
         'limite_b': limite_b,
-        'valor_t': valor_t
+        'valor_t': valor_t,
+        'valores':valores
     })
 
 def landing_documentacion(request):
     return render(request, 'landing/documentacion.html', {'modo': 'landing'})
 
 def login(request): 
+    if request.method == 'POST':
+        username = request.POST.get('user')
+        password = request.POST.get('password')
+
+        try:
+            usuario = MiUsuario.objects.get(user=username)
+
+            if check_password(password, usuario.password):
+                request.session['usuario_id'] = usuario.id
+                request.session['usuario_nombre'] = usuario.nombre
+                return redirect('inicio_usuario')
+            else:
+                raise MiUsuario.DoesNotExist()
+
+        except MiUsuario.DoesNotExist:
+            return render(request, 'accounts/login.html', {
+                'error': 'Credenciales inválidas'
+            })
+
     return render(request, 'accounts/login.html', {'modo': 'landing'})
 
 def registro(request): 
-    return render(request, 'accounts/registro.html', {'modo': 'landing'})  
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+        user = request.POST['user']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        # Verificar si ya existe el usuario o email
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM tblUsuarios WHERE user = %s OR email = %s", [user, email])
+            count = cursor.fetchone()[0]
+        
+        if count > 0:
+            return render(request, 'accounts/registro.html', {
+                'error': 'Ya existe un usuario con ese correo o nombre de usuario.'
+            })
+
+        # Encriptar la contraseña
+        hashed_password = make_password(password)
+
+        # Insertar en la base de datos
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                INSERT INTO tblUsuarios (nombre, email, user, password)
+                VALUES (%s, %s, %s, %s)
+            """, [nombre, email, user, hashed_password])
+
+        # Obtener al usuario y guardar en sesión
+        usuario = MiUsuario.objects.get(user=user)
+        request.session['usuario_id'] = usuario.id
+        request.session['usuario_nombre'] = usuario.nombre
+
+        return redirect('inicio_usuario')
+
+    return render(request, 'accounts/registro.html',{'modo': 'landing'})
