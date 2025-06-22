@@ -10,6 +10,7 @@ urlpatterns = [
     path('metodo2/', views.usuario_metodo2, name='metodo2_usuario'),
     path('documentacion/', views.usuario_documentacion, name='documentacion_usuario'),
     path('perfil/', views.usuario_perfil, name='perfil'),
-    path('cerrar/',views.cerrar_sesion, name="cerrar_sesion")
+    path('cerrar/',views.cerrar_sesion, name="cerrar_sesion"),
+    path('editarPerfil/', views.editarPerfil, name="editarPerfil")
 ]
 

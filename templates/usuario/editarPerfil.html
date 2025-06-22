@@ -1,0 +1,49 @@
+{% extends 'bases/base.html' %}
+
+{% block title %}Editar Perfil{% endblock %}
+
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="conte-LR">
+    <h2>Editar Perfil</h2>
+    <form method="post" class="form-LR">
+      <div class="registro">
+        {% csrf_token %}
+        <label for="new_nm" class="login_I">Nombre:</label>
+        <input type="text" name="new_nm" class="login_R" placeholder="Nombre" value="{{ nombre }}"><br>
+        <label for="new_u" class="login_I">Usuario:</label>
+        <input type="text" name="new_u" class="login_R" placeholder="Usuario" value="{{ user }}"><br>
+        <label for="new_em" class="login_I">E-mail:</label>
+        <input type="email" name="new_em" class="login_R" placeholder="Correo" value="{{ email }}"><br>
+        <!--
+        <label for="new_p" class="login_I">Contraseña:</label>
+        <input type="password" name="new_p" class="login_R" placeholder="Contraseña" value="{{ contra }}"><br>
+        -->
+      </div>
+      <button type="submit" class="btn-login">Actualizar</button>
+    </form>
+  </div>
+
+    {% if errores %}
+        <article class="message is-danger">
+            <div class="message-header">
+            <p>Ocurrió un error</p>
+            </div>
+            <div class="message-body">
+            <ul>
+                {% for error in errores %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            </div>
+        </article>
+    {% endif %}
+
+{% endblock %}

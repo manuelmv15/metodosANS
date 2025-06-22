@@ -12,7 +12,7 @@
 
   <div class="conte-LR">
     <h2>Iniciar sesión</h2>
-    <form method="post" >
+    <form method="post" class="form-LR">
         <div class="login">
           {% csrf_token %}
           <label for="user" class="login_I">Usuario:</label>
@@ -21,12 +21,12 @@
           <label for="password" class="login_I">Contraseña:</label>
           <input type="password" name="password" placeholder="Contraseña" class="login_R" required><br>
         </div>
-        <button type="submit">Entrar</button>
+        <button type="submit" class="btn-login">Entrar</button>
     </form>
   </div>
 
-  {% if messages %}
-    {% for message in messages %}
+  {% if error %}
+    {% for message in error %}
       <p style="color:red;">{{ message }}</p>
     {% endfor %}
   {% endif %}

@@ -10,6 +10,9 @@ import sympy as sp
 import numpy as np
 from django.conf import settings
 from urllib.parse import unquote
+from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import make_password
+from django.db import connection
 
 
 
@@ -295,6 +298,60 @@ def usuario_perfil(request):
         'usuario': usuario,
         'historial': historial,
         'histoM': histoM
+    })
+    
+def editarPerfil(request):
+    if 'usuario_id' not in request.session:
+        return redirect('vista_invitado')
+    
+    #para editar
+    usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
+    
+    id_u = usuario.id
+    nombre = usuario.nombre
+    
+    contra = usuario.password
+    email = usuario.email
+    user = usuario.user
+    
+    if request.method == 'POST':
+        new_u = request.POST.get('new_u')
+        #new_p = request.POST.get('new_p')
+        new_em = request.POST.get('new_em')
+        new_nm = request.POST.get('new_nm')
+        
+        
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT COUNT(*) FROM tblUsuarios WHERE user = %s OR email = %s", [new_u, new_em])
+            count = cursor.fetchone()[0]
+        
+        if count > 0:
+            return render(request, 'usuario/editarPerfil.html', {
+                'error': 'Ya existe un usuario con ese correo o nombre de usuario.'
+            })
+        
+        #hashed_password = make_password(new_p)
+        
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                UPDATE tblUsuarios 
+                SET nombre = %s, email = %s, user = %s
+                WHERE usuario_id = %s
+            """, [new_nm, new_em, new_u, id_u])
+        
+        #usuario = MiUsuario.objects.get(user=user)
+        
+        request.session['usuario_id'] = usuario.id
+        request.session['usuario_nombre'] = usuario.nombre
+
+        return redirect('inicio_usuario')
+        
+    return render(request, 'usuario/editarPerfil.html', {
+        'modo': 'usuario',
+        'nombre': nombre,
+        'user': user,
+        'email': email,
+        #'contra': contra
     })
 
 

@@ -6,15 +6,17 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/perfil.css' %}">
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock %}
-
-
-
 
 {% block content %}
 <section class="perfil-contenedor">
+  <div class="perfil-ED">
   <h1 class="titulo">Perfil de Usuario</h1>
-
+  <button class="btn-editar">
+    <a href="{% url 'editarPerfil' %}?new_u={{ user }}&new_nm={{ nombre }}&new_p={{ contra }}&new_em={{ email }}" class="">Editar</a>
+  </button>
+  </div>
 <nav class="tabs">
   <a href="#" onclick="mostrarMetodo('metodo1', this)">Método 1</a>
   <a href="#" onclick="mostrarMetodo('metodo2', this)">Método 2</a>

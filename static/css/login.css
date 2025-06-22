@@ -4,6 +4,59 @@
     align-items: center;
 }
 
+.perfil-ED {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-editar {
+    color: white;
+    background-color: #34495e;
+    border: None;
+    border-radius: 2px;
+    font-size: 1rem;
+    height: 2rem;
+    padding: 5px 10px;
+    width: 180px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.btn-editar a {
+    color: white;
+}
+
+.btn-editar:hover {
+    color: white;
+    background-color: #46729e;
+}
+
+.form-LR {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+}
+
+.btn-login{
+    color: white;
+    background-color: #34495e;
+    border: None;
+    border-radius: 2px;
+    padding: 5px 10px;
+    width: 120px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+}
+
+.btn-login:hover {
+    color: white;
+    background-color: #46729e;
+}
+
 .login {
     display: grid;
     grid-template-rows: 1fr 1fr;
