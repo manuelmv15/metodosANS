@@ -11,11 +11,17 @@
 
 {% block content %}
 <section class="perfil-contenedor">
-  <div class="perfil-ED">
   <h1 class="titulo">Perfil de Usuario</h1>
-  <button class="btn-editar">
-    <a href="{% url 'editarPerfil' %}?new_u={{ user }}&new_nm={{ nombre }}&new_p={{ contra }}&new_em={{ email }}" class="">Editar</a>
-  </button>
+  <div class="perfil-ED">
+    <div class="perfil-datos">
+      <h5>Nombre: {{ usuario.nombre }}</h5>
+      <h5>Usuario: {{ usuario.user }}</h5>
+      <h5>E-mail: {{ usuario.email }}</h5>
+    </div>
+    <button class="btn-editar">
+      <a href="{% url 'editarPerfil' usuario.id %}" class="">Editar</a>
+      
+    </button>
   </div>
 <nav class="tabs">
   <a href="#" onclick="mostrarMetodo('metodo1', this)">Método 1</a>

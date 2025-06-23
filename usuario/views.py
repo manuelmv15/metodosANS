@@ -13,7 +13,7 @@ from urllib.parse import unquote
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.hashers import make_password
 from django.db import connection
-
+from forms import editarPerfilFM
 
 
 def inicio_usuario(request):
@@ -292,67 +292,33 @@ def usuario_perfil(request):
     usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
     historial = HistorialPuntoFijo.objects.filter(usuario=usuario).prefetch_related('iteraciones').order_by('-fecha')
     histoM = HistorialMetodo2.objects.filter(usuario=usuario).prefetch_related('valores').order_by('-fecha')
+    id_u = usuario.id
 
     return render(request, 'usuario/perfil.html', {
         'modo': 'usuario',
         'usuario': usuario,
         'historial': historial,
-        'histoM': histoM
+        'histoM': histoM,
+        'id_u': id_u
     })
     
-def editarPerfil(request):
-    if 'usuario_id' not in request.session:
-        return redirect('vista_invitado')
-    
-    #para editar
-    usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
-    
-    id_u = usuario.id
-    nombre = usuario.nombre
-    
-    contra = usuario.password
-    email = usuario.email
-    user = usuario.user
-    
-    if request.method == 'POST':
-        new_u = request.POST.get('new_u')
-        #new_p = request.POST.get('new_p')
-        new_em = request.POST.get('new_em')
-        new_nm = request.POST.get('new_nm')
-        
-        
-        with connection.cursor() as cursor:
-            cursor.execute("SELECT COUNT(*) FROM tblUsuarios WHERE user = %s OR email = %s", [new_u, new_em])
-            count = cursor.fetchone()[0]
-        
-        if count > 0:
-            return render(request, 'usuario/editarPerfil.html', {
-                'error': 'Ya existe un usuario con ese correo o nombre de usuario.'
-            })
-        
-        #hashed_password = make_password(new_p)
-        
-        with connection.cursor() as cursor:
-            cursor.execute("""
-                UPDATE tblUsuarios 
-                SET nombre = %s, email = %s, user = %s
-                WHERE usuario_id = %s
-            """, [new_nm, new_em, new_u, id_u])
-        
-        #usuario = MiUsuario.objects.get(user=user)
-        
-        request.session['usuario_id'] = usuario.id
-        request.session['usuario_nombre'] = usuario.nombre
-
+def editarPerfil(request, id=0):
+    if request.method == "GET":
+        if id==0:
+            form = editarPerfilFM()
+        else:
+            usuario = MiUsuario.objects.get(pk=id)
+            form = editarPerfilFM(instance=usuario)
+        return  render(request, "usuario/editarPerfil.html", {'modo': 'usuario', 'form':form})
+    else:
+        if id == 0:
+            form = editarPerfilFM(request.POST)
+        else:
+            usuario = MiUsuario.objects.get(pk=id)
+            form = editarPerfilFM(request.POST,instance=usuario)
+        if form.is_valid():
+            form.save()
         return redirect('inicio_usuario')
-        
-    return render(request, 'usuario/editarPerfil.html', {
-        'modo': 'usuario',
-        'nombre': nombre,
-        'user': user,
-        'email': email,
-        #'contra': contra
-    })
 
 
 def cerrar_sesion(request):
