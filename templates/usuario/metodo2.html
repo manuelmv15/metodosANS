@@ -64,20 +64,21 @@
             <h2>Error trapecio compuesto = {{ errorTC }}</h2>
         </div>
 
-        
+        <div>
             <table border="1">
                 <tr>
-                    <th>seg.</th><th>valor seg</th>
+                    <th>seg.</th><th>valor seg</th><th>valor f</th>
                 </tr>
                 {% for fila in valores %}
                     <tr>
                         <td>{{ forloop.counter }}</td>  <!-- segmento -->
                         <td>{{ fila.0 }}</td>            <!-- valor funcion -->
+                        <td>{{ fila.1 }}</td>            <!-- valor -->
                     </tr>
                 {% endfor %}
 
             </table>
-        
+        </div>
 
         <h3>Gráfica:</h3>
         <img src="{% static 'metodos/grafica_integral_numerica.svg' %}" alt="Gráfica de integracion numerica" style="width:100%; max-width:800px;">
