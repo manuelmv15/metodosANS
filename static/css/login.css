@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 800px;
 }
 
 .perfil-ED {
@@ -35,7 +36,9 @@
 }
 
 .form-LR {
-    width: 200px;
+    width: 800px;
+    max-width: 800px;
+    height: 800px;
     display: flex;
     flex-direction: column;
     align-items: end;
@@ -61,7 +64,7 @@
     display: grid;
     grid-template-rows: 1fr 1fr;
     grid-template-columns: 1fr 3fr;
-    max-width: 450px;
+    max-width: 800px;
     justify-content: start;
     align-items: center;
     justify-items: start;
@@ -83,9 +86,10 @@
 
 .login_I {
     grid-column-start: 1;
+    width: 100px;
 }
 
 .login_R {
     grid-column-start: 2;
-    max-width: 200px;
+    max-width: 400px;
 }

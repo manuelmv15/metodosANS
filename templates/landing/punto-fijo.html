@@ -5,24 +5,29 @@
 
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock %} 
+
 {% block content %}
+<div class="conte-LR">
  <h1>Método de Punto Fijo</h1>
 
-    <form method="post">
+    <form method="post" class="form-LR">
     {% csrf_token %}
-    
-        <label for="funcion">Ecuación g(x):</label>
-        <input type="text" name="funcion" value="{{ funcion|default:'E**-x' }}"> <!-- no vacio-->
+      <div class="login">
+        <label for="funcion" class="login_I">Ecuación g(x):</label>
+        <input type="text" name="funcion" class="login_R" value="{{ funcion|default:'E**-x' }}"> <!-- no vacio-->
 
-        <label for="x0">x₀:</label>
-        <input type="number" name="x0" value="{{ x0 }}" step="any"><br> <!-- no vacio-->
+        <label for="x0" class="login_I">x₀:</label>
+        <input type="number" name="x0" class="login_R" value="{{ x0 }}" step="any"><br> <!-- no vacio-->
 
-        <label for="error_final">Error final:</label>
-        <input type="number" name="error_final" value="{{ error_final }}" step="any"><br> <!--mayor a 0-->
-
+        <label for="error_final" class="login_I">Error final:</label>
+        <input type="number" name="error_final" class="login_R" value="{{ error_final }}" step="any"><br> <!--mayor a 0-->
+      </div>
         <button type="submit">Calcular</button>
     </form>
-
+</div>
 
     {% if errores %}
   <ul class="has-text-danger">
