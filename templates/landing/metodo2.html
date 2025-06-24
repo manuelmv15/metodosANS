@@ -4,33 +4,29 @@
 
 {% load static %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/login.css' %}">
-{% endblock %} 
-
 {% block content %}
 <div class="conte-LR">
- <h1>Método Integral Númerica</h1>
+ <h1>Método Integración Númeriaca</h1>
 
     <form method="post" class="form-LR">
     {% csrf_token %}
       <div class="login">
-    
-        <label for="funcion" class="login_I">Ecuación g(x):</label>
-        <input type="text" name="funcion" class="login_R" value="{{ funcion|default:'0.2 + 25*x - 200*x**2 + 675*x**3 - 900*x**4 + 400*x**5' }} 
-        "style="width:100%;">
+        
+            <label for="funcion" class="login_I">Ecuación g(x):</label>
+            <input type="text" name="funcion" class="login_R" value="{{ funcion|default:'0.2 + 25*x - 200*x**2 + 675*x**3 - 900*x**4 + 400*x**5' }} 
+            "style="width:100%;">
 
-        <label for="limite_a" class="login_I">Limite inferior: </label>
-        <input type="number" name="limite_a" class="login_R" value="{{ limite_a|default:0 }}" step="0.1"><br>
+            <label for="limite_a" class="login_I">Limite inferior: </label>
+            <input type="number" name="limite_a" class="login_R" value="{{ limite_a|default:0 }}" step="0.1"><br>
 
-        <label for="limite_b" class="login_I">Limite superior: </label>
-        <input type="number" name="limite_b" class="login_R" value="{{ limite_b|default:0.8 }}" step="0.1"><br>
+            <label for="limite_b" class="login_I">Limite superior: </label>
+            <input type="number" name="limite_b" class="login_R" value="{{ limite_b|default:0.8 }}" step="0.1"><br>
 
-        <label for="deci_v" class="login_I">Número de decimales: </label>
-        <input type="number" name="deci_v" class="login_R" value="{{ deci_v|default:4 }}" step="1"><br>
+            <label for="deci_v" class="login_I">Número de decimales a usar: </label>
+            <input type="number" name="deci_v" class="login_R" value="{{ deci_v|default:4 }}" step="1"><br>
 
-        <label for="valor_t" class="login_I">Número intervalos para el trapecio compuesto: </label>
-        <input type="number" name="valor_t" class="login_R" value="{{ valor_t|default:6 }}" step="1"><br>
+            <label for="valor_t" class="login_I">Número intervalos para el trapecio compuesto: </label>
+            <input type="number" name="valor_t" class="login_R" value="{{ valor_t|default:6 }}" step="1"><br>
       </div>
     <button type="submit">Calcular</button>
   </form>
