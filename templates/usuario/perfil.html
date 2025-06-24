@@ -61,10 +61,6 @@
           <td>
 <a href="{% url 'metodo1_usuario' %}?funcion={{ h.funcion|urlencode }}&x0={{ h.x0 }}&nIteraciones={{ h.n_iteraciones }}&decimales={{ h.decimales }}&error_final={{ h.error_final }}" class="boton-ver">mandar</a>
 
-
-
-
-
 </td>
 
         </tr>
@@ -132,7 +128,9 @@
           <th>n seg</th>
           <th>decimales</th>
           <th>Fecha</th>
+          <!--
           <th>Botón</th>
+        -->
         </tr>
       </thead>
       <tbody>
@@ -147,6 +145,7 @@
           <td>{{ h.n_espacios }}</td>
           <td>{{ h.decimales }}</td>
           <td>{{ h.fecha|date:"d/m/Y H:i" }}</td>
+          <!--
           <td>
             <button class="boton-ver" onclick="toggleValores('valores-{{ forloop.counter }}')">
               Ver
@@ -176,7 +175,7 @@
               </table>
             </div>
           </td>
-        </tr>
+        </tr>-->
         {% endfor %}
       </tbody>
     </table>

@@ -9,12 +9,11 @@ from accounts.models import MiUsuario
 class editarPerfilFM(forms.ModelForm):
     class Meta:
         model = MiUsuario
-        fields = ('nombre', 'email', 'user', 'password')
+        fields = ('nombre', 'email', 'user')
         labels = {
             'nombre': 'Nombre',
             'email': 'Email',
-            'user': 'User',
-            'password': 'contraseña',
+            'user': 'User'
         }
     
     def __init__(self, *args, **kwargs):

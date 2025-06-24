@@ -192,7 +192,7 @@ def usuario_metodo2(request):
     funcion = ''
     limite_a = 0.0
     limite_b = 0.0
-    decimales = 4
+    decimales = 0
     errorT = 0.0
     errorTC = 0.0
     valor_t = 0
@@ -239,23 +239,23 @@ def usuario_metodo2(request):
                 limite_b = float(request.POST.get('limite_b'))
                 valor_t = int(request.POST.get('valor_t'))
 
-                AreaI, AreaT, AreaTC, valores, errorT, errorTC, valor_t = IntegralNumerica(funcion, decimales, limite_a, limite_b, valor_t)
+                AreaI, AreaT, AreaTC, valores, valoresH, errorT, errorTC, valor_t = IntegralNumerica(funcion, decimales, limite_a, limite_b, valor_t)
 
                 usuario = MiUsuario.objects.get(id=request.session['usuario_id'])
                 
                 historial = HistorialMetodo2.objects.create(
                     usuario=usuario,
                     funcion=funcion,
-                    AreaI=AreaI,
-                    AreaT=AreaT,
-                    AreaTC=AreaTC,
-                    errorT = errorT,
-                    errorTC=errorTC,
+                    AreaI= round(AreaI, 4),
+                    AreaT= round(AreaT, 4),
+                    AreaTC= round(AreaTC, 4),
+                    errorT = round(errorT, 4),
+                    errorTC= round(errorTC, 4),
                     n_espacios=valor_t,
                     decimales= decimales
                 )
                 
-                for i, it in enumerate(valores, start=1):
+                for i, it in enumerate(valores, start=0):
                     ValoresMetodo2.objects.create(
                         ejercicio=historial,
                         valorF=valores[i],
@@ -277,6 +277,7 @@ def usuario_metodo2(request):
         'limite_b': limite_b,
         'valor_t': valor_t,
         'valores': valores,
+        'valoresH': valoresH,
         'errores': errores
     })
 
